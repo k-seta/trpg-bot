@@ -4,15 +4,18 @@
 import os
 import re
 import random
+import itertools
 import discord
 
 def dice_ndn(message_ndn):
-    pattern = '(\d+)d(\d+)'
-    match_obj = re.search(pattern, message_ndn)
-    if not match_obj:
-        return []
-    quantity = int(match_obj.group(1))
-    size = int(match_obj.group(2))
+    pattern_dice = '(\d+)d(\d+)'
+    match_dice = re.search(pattern_dice, message_ndn)
+    if not match_dice:
+        pattern_const = '(\d+)'
+        match_const = re.search(pattern_const, message_ndn)
+        return [int(match_const.group(1))] if match_const else []
+    quantity = int(match_dice.group(1))
+    size = int(match_dice.group(2))
     return [random.randint(1, size) for i in range(quantity)]
 
 def validate_ndn(message):
@@ -35,8 +38,10 @@ if __name__ == '__main__':
             await message.channel.send('pong')
 
         if validate_ndn(message.content):
-            dice = dice_ndn(message.content)
-            reply = f"{message.author.mention} がサイコロを降ったよ\n=> {sum(dice)} [{', '.join(map(str, dice))}]"
+            elements = message.content.split('+')
+            dices = [dice_ndn(e) for e in elements]
+            sum_dices = sum(list(itertools.chain.from_iterable(dices)))
+            reply = f"{message.author.mention} がサイコロを降ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
             await message.channel.send(reply)      
 
     client.run(TOKEN)
