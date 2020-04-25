@@ -5,6 +5,7 @@ import os
 import re
 import random
 import itertools
+import traceback
 import discord
 
 def dice_ndn(message_ndn):
@@ -34,6 +35,7 @@ if __name__ == '__main__':
     async def on_message(message):
         if message.author.bot:
             return
+
         if message.content == '/ping':
             await message.channel.send('pong')
 
@@ -42,6 +44,10 @@ if __name__ == '__main__':
             dices = [dice_ndn(e) for e in elements]
             sum_dices = sum(list(itertools.chain.from_iterable(dices)))
             reply = f"{message.author.mention} がサイコロを振ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
-            await message.channel.send(reply)      
+            try:
+                await message.channel.send(reply)      
+            except Exception as e:
+                await message.channel.send(f"Error: {e.message}")
+                traceback.print_exc()
 
     client.run(TOKEN)
