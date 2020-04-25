@@ -6,11 +6,17 @@ import re
 import random
 import discord
 
-def dice_ndn(n, m):
-    return [random.randint(1, m) for i in range(n)]
+def dice_ndn(message_ndn):
+    pattern = '(\d+)d(\d+)'
+    match_obj = re.search(pattern, message_ndn)
+    if not match_obj:
+        return []
+    quantity = int(match_obj.group(1))
+    size = int(match_obj.group(2))
+    return [random.randint(1, size) for i in range(quantity)]
 
 def validate_ndn(message):
-    pattern = '/(\d+)d(\d+)'
+    pattern = '^/.*?(\d+d\d+)'
     return re.match(pattern, message)
 
 if __name__ == '__main__':
@@ -28,9 +34,8 @@ if __name__ == '__main__':
         if message.content == '/ping':
             await message.channel.send('pong')
 
-        match_ndn = validate_ndn(message.content)
-        if match_ndn:
-            dice = dice_ndn(int(match_ndn.group(1)), int(match_ndn.group(2)))
+        if validate_ndn(message.content):
+            dice = dice_ndn(message.content)
             reply = f"{message.author.mention} がサイコロを降ったよ\n=> {sum(dice)} [{', '.join(map(str, dice))}]"
             await message.channel.send(reply)      
 
