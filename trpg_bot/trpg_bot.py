@@ -3,7 +3,11 @@
 
 import os
 import re
+import random
 import discord
+
+def dice_ndn(n, m):
+    return [str(random.randint(1, m)) for i in range(n)]
 
 def validate_ndn(message):
     pattern = '/(\d+?)d(\d+?)'
@@ -26,6 +30,8 @@ if __name__ == '__main__':
 
         match_obj = validate_ndn(message.content)
         if match_obj:
-            await message.channel.send('dice')      
+            dice = dice_ndn(int(match_obj.group(1)), int(match_obj.group(2)))
+            reply = f"\n=> [{', '.join(dice)}]"
+            await message.channel.send(reply)      
 
     client.run(TOKEN)
