@@ -28,9 +28,9 @@ if __name__ == '__main__':
         if message.content == '/ping':
             await message.channel.send('pong')
 
-        match_obj = validate_ndn(message.content)
-        if match_obj:
-            dice = dice_ndn(int(match_obj.group(1)), int(match_obj.group(2)))
+        match_ndn = validate_ndn(message.content)
+        if match_ndn:
+            dice = dice_ndn(int(match_ndn.group(1)), int(match_ndn.group(2)))
             reply = f"{message.author.mention} がサイコロを降ったよ\n=> {sum(dice)} [{', '.join(map(str, dice))}]"
             await message.channel.send(reply)      
 
