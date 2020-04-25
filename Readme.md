@@ -36,3 +36,6 @@ bot > @you がサイコロを降ったよ
 1. `heroku git:remote -a {heroku の app 名}` を実行して、 heroku アプリの repository をローカルに登録する
 1. `poetry run pip freeze | grep -v "pkg-resources" > requirements.txt` で、デプロイ用の依存関係設定ファイルを作成する
 1. `git push heroku master` でデプロイする
+
+## LICENSE
+このソフトウェアは、MITライセンスのもとで公開されています。詳細は、 `LICENSE` (英語) をご覧ください。
