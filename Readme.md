@@ -38,4 +38,4 @@ bot > @you がサイコロを振ったよ
 1. `git push heroku master` でデプロイする
 
 ## LICENSE
-このソフトウェアは、MITライセンスのもとで公開されています。詳細は、 `LICENSE` (英語) をご覧ください。
+このソフトウェアは、MITライセンスのもとで公開されています。詳細は、 [LICENSE](https://github.com/k-seta/trpg-bot/blob/master/LICENSE) (英語) をご覧ください。
