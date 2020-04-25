@@ -41,7 +41,7 @@ if __name__ == '__main__':
             elements = message.content.split('+')
             dices = [dice_ndn(e) for e in elements]
             sum_dices = sum(list(itertools.chain.from_iterable(dices)))
-            reply = f"{message.author.mention} がサイコロを降ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
+            reply = f"{message.author.mention} がサイコロを振ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
             await message.channel.send(reply)      
 
     client.run(TOKEN)
