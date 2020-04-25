@@ -31,7 +31,7 @@ if __name__ == '__main__':
         match_obj = validate_ndn(message.content)
         if match_obj:
             dice = dice_ndn(int(match_obj.group(1)), int(match_obj.group(2)))
-            reply = f"\n=> [{', '.join(dice)}]"
+            reply = f"{message.author.mention} がサイコロを降ったよ。\n=> [{', '.join(dice)}]"
             await message.channel.send(reply)      
 
     client.run(TOKEN)
