@@ -47,7 +47,7 @@ if __name__ == '__main__':
             try:
                 await message.channel.send(reply)      
             except Exception as e:
-                await message.channel.send(f"Error: {str(e)}")
+                await message.channel.send(f"何かエラーが起きたみたいだよ\n{str(e)}")
                 traceback.print_exc()
 
     client.run(TOKEN)
