@@ -95,10 +95,6 @@ version = "1.4.0a2308+ge473f3c"
 aiohttp = ">=3.6.0,<3.7.0"
 websockets = ">=6.0,<7.0 || >7.0,<8.0 || >8.0,<8.0.1 || >8.0.1,<9.0"
 
-[package.dependencies.PyNaCl]
-optional = true
-version = "1.3.0"
-
 [package.extras]
 docs = ["sphinx (1.8.5)", "sphinxcontrib-websupport", "sphinxcontrib_trio (1.1.1)"]
 voice = ["PyNaCl (1.3.0)"]
@@ -107,6 +103,7 @@ voice = ["PyNaCl (1.3.0)"]
 reference = "e473f3c775b26a4bb54b18eb6240757306f4f5c1"
 type = "git"
 url = "https://github.com/Rapptz/discord.py.git"
+
 [[package]]
 category = "main"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -255,6 +252,17 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xm
 
 [[package]]
 category = "main"
+description = "Python client for Redis key-value store"
+name = "redis"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "3.4.1"
+
+[package.extras]
+hiredis = ["hiredis (>=0.1.3)"]
+
+[[package]]
+category = "main"
 description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
@@ -312,7 +320,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "295d4a7a29f362e30633487551f99d9ef04bd973da0e4bea3e49f26d1eecd1d9"
+content-hash = "bb21d307a33590227d6d53f3e4a202744a5af6fc17c9c47d39cc30e4f98f60d0"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -461,6 +469,10 @@ pyparsing = [
 pytest = [
     {file = "pytest-5.4.1-py3-none-any.whl", hash = "sha256:0e5b30f5cb04e887b91b1ee519fa3d89049595f428c1db76e73bd7f17b09b172"},
     {file = "pytest-5.4.1.tar.gz", hash = "sha256:84dde37075b8805f3d1f392cc47e38a0e59518fb46a431cfdaf7cf1ce805f970"},
+]
+redis = [
+    {file = "redis-3.4.1-py2.py3-none-any.whl", hash = "sha256:b205cffd05ebfd0a468db74f0eedbff8df1a7bfc47521516ade4692991bb0833"},
+    {file = "redis-3.4.1.tar.gz", hash = "sha256:0dcfb335921b88a850d461dc255ff4708294943322bd55de6cfd68972490ca1f"},
 ]
 six = [
     {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},
