@@ -21,6 +21,10 @@ def dice_ndn(message_ndn):
     size = int(match_dice.group(2))
     return [random.randint(1, size) for i in range(quantity)]
 
+def validate_regist(message):
+    pattern = '^/regist (http.*)'
+    return re.match(pattern, message)
+
 def validate_ndn(message):
     pattern = '^/.*?(\d+d\d+)'
     return re.match(pattern, message)
@@ -44,14 +48,19 @@ if __name__ == '__main__':
         if message.content == '/ping':
             await message.channel.send('pong')
 
-        if message.content == '/regist':
-            r.hmset('test', {'name': 'Taro'})
+        match_regist = validate_regist(message.content)
+        if match_regist:
+            session = message.channel.name
+            user = message.author.name
+            url = match_regist.group(1)
+            r.hset(session, user, url)
+            reply = f"{message.author.mention} がキャラシートを登録したよ\n=> {url}"
             await message.channel.send('registered.')
 
         if message.content == '/players':
-            reply = r.hgetall('test')
-            r.delete('test')
-            await message.channel.send(json.dumps(reply))
+            session = message.channel.name
+            data = r.hgetall(session)
+            await message.channel.send(f"=> {str(data)}")
 
         if validate_ndn(message.content):
             elements = message.content.split('+')
