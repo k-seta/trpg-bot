@@ -7,6 +7,8 @@ import random
 import itertools
 import traceback
 import discord
+import json
+import redis
 
 def dice_ndn(message_ndn):
     pattern_dice = '(\d+)d(\d+)'
@@ -25,7 +27,10 @@ def validate_ndn(message):
 
 if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']
+    REDIS = os.environ['REDIS_URL']
+
     client = discord.Client()
+    r = redis.from_url(os.environ.get("REDIS_URL"))
 
     @client.event
     async def on_ready():
@@ -38,6 +43,15 @@ if __name__ == '__main__':
 
         if message.content == '/ping':
             await message.channel.send('pong')
+
+        if message.content == '/regist':
+            r.hmset('test', {'name': 'Taro'})
+            await message.channel.send('registered.')
+
+        if message.content == '/players':
+            reply = r.hgetall('test')
+            r.delete('test')
+            await message.channel.send(json.dumps(reply))
 
         if validate_ndn(message.content):
             elements = message.content.split('+')
