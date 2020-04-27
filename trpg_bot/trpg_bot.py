@@ -34,7 +34,7 @@ if __name__ == '__main__':
     REDIS = os.environ['REDIS_URL']
 
     client = discord.Client()
-    r = redis.from_url(os.environ.get("REDIS_URL"))
+    r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
 
     @client.event
     async def on_ready():
