@@ -9,6 +9,7 @@ python = "^3.6"
 "discord.py" = {git = "https://github.com/Rapptz/discord.py.git"}
 redis = "^3.4.1"
 prettytable = "^0.7.2"
+requests = "^2.23.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
