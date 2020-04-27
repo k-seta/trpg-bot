@@ -11,6 +11,8 @@ import json
 import redis
 from prettytable import PrettyTable
 
+from Player import Player
+
 def dice_ndn(message_ndn):
     pattern_dice = '(\d+)d(\d+)'
     match_dice = re.search(pattern_dice, message_ndn)
@@ -75,7 +77,15 @@ if __name__ == '__main__':
                 dices = [dice_ndn(e) for e in elements]
                 sum_dices = sum(list(itertools.chain.from_iterable(dices)))
                 reply = f"{message.author.mention} がサイコロを振ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
-                await message.channel.send(reply)      
+                await message.channel.send(reply)
+
+            if message.content == '/status':
+                session = message.channel.name
+                user = message.author.name
+                url = r.hget(session, user)
+                player = Player(user, url)
+                status = player.print()
+                await message.channel.send(f"{message.author.mention} のキャラクターシートだよ\n```{status}```")
 
         except Exception as e:
             await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
