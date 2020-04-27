@@ -9,6 +9,7 @@ import traceback
 import discord
 import json
 import redis
+from prettytable import PrettyTable
 
 def dice_ndn(message_ndn):
     pattern_dice = '(\d+)d(\d+)'
@@ -61,7 +62,11 @@ if __name__ == '__main__':
             if message.content == '/players':
                 session = message.channel.name
                 data = r.hgetall(session)
-                await message.channel.send(f"=> {str(data)}")
+                table = PrettyTable()
+                table.field_names = ['user', 'url']
+                for user, url in data.items():
+                    table.add_row([user, url])
+                await message.channel.send(f"#{session} の参加プレイヤー達を紹介するよ\n```{table.get_string()}```")
 
             if validate_ndn(message.content):
                 elements = message.content.split('+')
