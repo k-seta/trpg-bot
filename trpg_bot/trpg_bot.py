@@ -34,6 +34,8 @@ if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']
     REDIS = os.environ['REDIS_URL']
 
+    GLOBAL_CHANNEL_ID = os.environ['GLOBAL_CHANNEL_ID']
+
     client = discord.Client()
     r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
 
@@ -75,6 +77,16 @@ if __name__ == '__main__':
                 reply = f"{message.author.mention} がサイコロを振ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
                 await message.channel.send(reply)      
 
+        except Exception as e:
+            await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
+            traceback.print_exc()
+
+    @client.event
+    async def on_guild_channel_delete(channel):
+        try:
+            r.delete(channel.name)
+            global_channel = client.get_channel(GLOBAL_CHANNEL_ID)
+            await global_channel.send(f"{channel.mention}のプレイヤーデータを削除したよ")
         except Exception as e:
             await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
             traceback.print_exc()
