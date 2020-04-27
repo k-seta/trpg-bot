@@ -42,35 +42,36 @@ if __name__ == '__main__':
 
     @client.event
     async def on_message(message):
-        if message.author.bot:
-            return
+        try:
+            if message.author.bot:
+                return
 
-        if message.content == '/ping':
-            await message.channel.send('pong')
+            if message.content == '/ping':
+                await message.channel.send('pong')
 
-        match_regist = validate_regist(message.content)
-        if match_regist:
-            session = message.channel.name
-            user = message.author.name
-            url = match_regist.group(1)
-            r.hset(session, user, url)
-            reply = f"{message.author.mention} がキャラシートを登録したよ\n=> {url}"
-            await message.channel.send('registered.')
+            match_regist = validate_regist(message.content)
+            if match_regist:
+                session = message.channel.name
+                user = message.author.name
+                url = match_regist.group(1)
+                r.hset(session, user, url)
+                reply = f"{message.author.mention} がキャラシートを登録したよ\n=> {url}"
+                await message.channel.send('registered.')
 
-        if message.content == '/players':
-            session = message.channel.name
-            data = r.hgetall(session)
-            await message.channel.send(f"=> {str(data)}")
+            if message.content == '/players':
+                session = message.channel.name
+                data = r.hgetall(session)
+                await message.channel.send(f"=> {str(data)}")
 
-        if validate_ndn(message.content):
-            elements = message.content.split('+')
-            dices = [dice_ndn(e) for e in elements]
-            sum_dices = sum(list(itertools.chain.from_iterable(dices)))
-            reply = f"{message.author.mention} がサイコロを振ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
-            try:
+            if validate_ndn(message.content):
+                elements = message.content.split('+')
+                dices = [dice_ndn(e) for e in elements]
+                sum_dices = sum(list(itertools.chain.from_iterable(dices)))
+                reply = f"{message.author.mention} がサイコロを振ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
                 await message.channel.send(reply)      
-            except Exception as e:
-                await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
-                traceback.print_exc()
+
+        except Exception as e:
+            await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
+            traceback.print_exc()
 
     client.run(TOKEN)
