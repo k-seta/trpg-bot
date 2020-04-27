@@ -6,7 +6,7 @@ authors = ["k-seta <swordh16@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
-"discord.py" = {git = "https://github.com/Rapptz/discord.py.git", extras = ["voice"]}
+"discord.py" = {git = "https://github.com/Rapptz/discord.py.git"}
 redis = "^3.4.1"
 prettytable = "^0.7.2"
 

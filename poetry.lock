@@ -92,7 +92,6 @@ voice = ["PyNaCl (1.3.0)"]
 reference = "e473f3c775b26a4bb54b18eb6240757306f4f5c1"
 type = "git"
 url = "https://github.com/Rapptz/discord.py.git"
-
 [[package]]
 category = "main"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -293,7 +292,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "61f306f07e0d54cb77519de5ddfd40eaeb7a3f586fc87b6469992008293dd7f6"
+content-hash = "601dcf391904012e5d5e190ca67fa168ac643e584e89b4feacc577aa018ae263"
 python-versions = "^3.6"
 
 [metadata.files]
