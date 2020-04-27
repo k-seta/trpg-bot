@@ -66,7 +66,7 @@ if __name__ == '__main__':
                 table.field_names = ['user', 'url']
                 for user, url in data.items():
                     table.add_row([user, url])
-                await message.channel.send(f"#{session} の参加プレイヤー達を紹介するよ\n```{table.get_string()}```")
+                await message.channel.send(f"{message.channel.mention} の参加プレイヤー達を紹介するよ\n```{table.get_string()}```")
 
             if validate_ndn(message.content):
                 elements = message.content.split('+')
