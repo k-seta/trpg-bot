@@ -3,6 +3,7 @@
 
 import re
 import requests
+from bs4 import BeautifulSoup
 from prettytable import PrettyTable
 
 class Player:
@@ -12,69 +13,48 @@ class Player:
 
     name = 'name'
 
-    HP = 0
-    MP = 0
-    SAN_MAX = 0
-    IDA = 0
-    LUK = 0
-    ACK = 0
+    HP = '0'
+    MP = '0'
+    SAN_MAX = '0'
+    IDA = '0'
+    LUK = '0'
+    ACK = '0'
 
 
-    STR = 0
-    CON = 0
-    POW = 0
-    DEX = 0
-    APP = 0
-    SIZ = 0
-    INT = 0 
-    EDU = 0
-
-    pattern_map = {
-        'name': '<input name="pc_name" class="str" id="pc_name" size="55" type="text" value="(.*)"></td>',
-        'HP': '<input name="NP9" id="NP9" value="(\d+)" size="3" readonly="true" type="text">',
-        'MP': '<input name="NP10" id="NP10" value="(\d+)" size="3" readonly="true" type="text">',
-        'SAN_LEFT': '<input type="text" name="SAN_Left" value="(\d+)" size="3" .*?>',
-        'SAN_MAX': '<input name="NP11" id="NP11" value="(\d+)" size="3" readonly="true" type="text">',
-        'IDA': '<input name="NP12" id="NP12" value="(\d+)" size="3" readonly="true" type="text">',
-        'LUK': '<input name="NP13" id="NP13" value="(\d+)" size="3" readonly="true" type="text">',
-        'ACK': '<input name="NP14" id="NP14" value="(\d+)" size="3" readonly="true" type="text">',
-        'STR': '<input name="NP1" id="NP1" value="(\d+)" size="3" readonly="true" type="text">',
-        'CON': '<input name="NP2" id="NP2" value="(\d+)" size="3" readonly="true" type="text">',
-        'POW': '<input name="NP3" id="NP3" value="(\d+)" size="3" readonly="true" type="text">',
-        'DEX': '<input name="NP4" id="NP4" value="(\d+)" size="3" readonly="true" type="text">',
-        'APP': '<input name="NP5" id="NP5" value="(\d+)" size="3" readonly="true" type="text">',
-        'SIZ': '<input name="NP6" id="NP6" value="(\d+)" size="3" readonly="true" type="text">',
-        'INT': '<input name="NP7" id="NP7" value="(\d+)" size="3" readonly="true" type="text">',
-        'EDU': '<input name="NP8" id="NP8" value="(\d+)" size="3" readonly="true" type="text">'
-    }
+    STR = '0'
+    CON = '0'
+    POW = '0'
+    DEX = '0'
+    APP = '0'
+    SIZ = '0'
+    INT = '0' 
+    EDU = '0'
 
     def __init__(self, user, url):
         self.user = user
         self.url = url
 
         res = requests.get(self.url)
-        self.name = self.extract_status(res.text, 'name')
+        soup = BeautifulSoup(res.text, 'html.parser')
 
-        self.HP = self.extract_status(res.text, 'HP')
-        self.MP = self.extract_status(res.text, 'MP')
-        self.SAN_LEFT = self.extract_status(res.text, 'SAN_LEFT')
-        self.SAN_MAX = self.extract_status(res.text, 'SAN_MAX')
-        self.IDA = self.extract_status(res.text, 'IDA')
-        self.LUK = self.extract_status(res.text, 'LUK')
-        self.ACK = self.extract_status(res.text, 'ACK')
+        self.name = soup.find('input', {'name': 'pc_name'})['value']
 
-        self.STR = int(self.extract_status(res.text, 'STR'))
-        self.CON = int(self.extract_status(res.text, 'CON'))
-        self.POW = int(self.extract_status(res.text, 'POW'))
-        self.DEX = int(self.extract_status(res.text, 'DEX'))
-        self.APP = int(self.extract_status(res.text, 'APP'))
-        self.SIZ = int(self.extract_status(res.text, 'SIZ'))
-        self.INT = int(self.extract_status(res.text, 'INT'))
-        self.EDU = int(self.extract_status(res.text, 'EDU'))
+        self.HP = soup.find('input', {'name': 'NP9'})['value']
+        self.MP = soup.find('input', {'name': 'NP10'})['value']
+        self.SAN_LEFT = soup.find('input', {'name': 'SAN_Left'})['value']
+        self.SAN_MAX = soup.find('input', {'name': 'NP11'})['value']
+        self.IDA = soup.find('input', {'name': 'NP12'})['value']
+        self.LUK = soup.find('input', {'name': 'NP13'})['value']
+        self.ACK = soup.find('input', {'name': 'NP14'})['value']
 
-    def extract_status(self, text, status):
-        match_obj = re.search(self.pattern_map[status], text)
-        return match_obj.group(1)
+        self.STR = soup.find('input', {'name': 'NP1'})['value']
+        self.CON = soup.find('input', {'name': 'NP2'})['value']
+        self.POW = soup.find('input', {'name': 'NP3'})['value']
+        self.DEX = soup.find('input', {'name': 'NP4'})['value']
+        self.APP = soup.find('input', {'name': 'NP5'})['value']
+        self.SIZ = soup.find('input', {'name': 'NP6'})['value']
+        self.INT = soup.find('input', {'name': 'NP7'})['value']
+        self.EDU = soup.find('input', {'name': 'NP8'})['value']
 
     def print(self):
         table = PrettyTable()
