@@ -1,6 +1,7 @@
 aiohttp==3.6.2
 async-timeout==3.0.1
 attrs==19.3.0
+beautifulsoup4==4.9.0
 certifi==2020.4.5.1
 chardet==3.0.4
 -e git+https://github.com/Rapptz/discord.py.git@e473f3c775b26a4bb54b18eb6240757306f4f5c1#egg=discord.py
@@ -18,6 +19,7 @@ pytest==5.4.1
 redis==3.4.1
 requests==2.23.0
 six==1.14.0
+soupsieve==1.9.5
 typing-extensions==3.7.4.2
 urllib3==1.25.9
 wcwidth==0.1.9
