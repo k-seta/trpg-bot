@@ -104,7 +104,8 @@ class Player:
         for key, value in self.know_arts.items():
             know_status += f"{key}: {value}\n"
 
-        return (f"{self.name}\n\n"
+        return (f"{self.name}\n"
+                f"{self.url}\n"
                 "【能力値】\n"
                 f"SAN値: {self.SAN_LEFT}/{self.SAN_MAX}"
                 '\n'
