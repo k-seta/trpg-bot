@@ -105,7 +105,7 @@ class Player:
             know_status += f"{key}: {value}\n"
 
         return (f"{self.name}\n"
-                f"{self.url}\n"
+                f"{self.url}\n\n"
                 "【能力値】\n"
                 f"SAN値: {self.SAN_LEFT}/{self.SAN_MAX}"
                 '\n'
