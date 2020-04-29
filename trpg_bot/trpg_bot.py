@@ -41,6 +41,10 @@ if __name__ == '__main__':
     client = discord.Client()
     r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
 
+    reply_help = ''
+    with open('./trpg_bot/usage.md', 'r') as f:
+        reply_help = f.read()
+
     @client.event
     async def on_ready():
         print('activated trpg-bot client.')
@@ -53,6 +57,9 @@ if __name__ == '__main__':
 
             if message.content == '/ping':
                 await message.channel.send('pong')
+
+            if message.content == '/help':
+                await message.channel.send(reply_help)
 
             match_regist = validate_regist(message.content)
             if match_regist:
