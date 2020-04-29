@@ -61,6 +61,23 @@ class Player:
         values = [value['value'] for value in soup.find('table', {'id': table_id}).find_all('input', {'name': value_name})]
         return dict(zip(keys, values))
 
+    def get(self, param):
+        if param == 'SAN':
+            return self.status['SAN_LEFT']
+        if param in self.status.keys():
+            return self.status[param]
+        if param in self.battle_arts.keys():
+            return self.battle_arts[param]
+        if param in self.find_arts.keys():
+            return self.find_arts[param]
+        if param in self.act_arts.keys():
+            return self.act_arts[param]
+        if param in self.commu_arts.keys():
+            return self.commu_arts[param]
+        if param in self.know_arts.keys():
+            return self.know_arts[param]
+        return ''
+
     def print(self):
         table = PrettyTable()
         table.field_names = list(self.status.keys())[:5]

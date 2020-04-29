@@ -77,6 +77,16 @@ if __name__ == '__main__':
                 dices = [dice_ndn(e) for e in elements]
                 sum_dices = sum(list(itertools.chain.from_iterable(dices)))
                 reply = f"{message.author.mention} がサイコロを振ったよ\n=> {sum_dices}    {str(dices)[1:-1]}"
+                
+                if '<' in message.content:
+                    session = message.channel.name
+                    user = message.author.name
+                    url = r.hget(session, user)
+                    player = Player(user, url)
+
+                    param_key = message.content.split('<')[1].strip()
+                    param_value = player.get(param_key)
+                    reply += f" < {param_key}({param_value})"
                 await message.channel.send(reply)
 
             if message.content == '/status':
