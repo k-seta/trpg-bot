@@ -13,23 +13,7 @@ class Player:
 
     name = 'name'
 
-    HP = '0'
-    MP = '0'
-    SAN_MAX = '0'
-    IDA = '0'
-    LUK = '0'
-    ACK = '0'
-
-
-    STR = '0'
-    CON = '0'
-    POW = '0'
-    DEX = '0'
-    APP = '0'
-    SIZ = '0'
-    INT = '0' 
-    EDU = '0'
-
+    status = {}
     battle_arts = {}
     find_arts = {}
     act_arts = {}
@@ -45,22 +29,26 @@ class Player:
 
         self.name = soup.find('input', {'name': 'pc_name'})['value']
 
-        self.HP = soup.find('input', {'name': 'NP9'})['value']
-        self.MP = soup.find('input', {'name': 'NP10'})['value']
-        self.SAN_LEFT = soup.find('input', {'name': 'SAN_Left'})['value']
-        self.SAN_MAX = soup.find('input', {'name': 'NP11'})['value']
-        self.IDA = soup.find('input', {'name': 'NP12'})['value']
-        self.LUK = soup.find('input', {'name': 'NP13'})['value']
-        self.ACK = soup.find('input', {'name': 'NP14'})['value']
+        HP = soup.find('input', {'name': 'NP9'})['value']
+        MP = soup.find('input', {'name': 'NP10'})['value']
+        IDA = soup.find('input', {'name': 'NP12'})['value']
+        LUK = soup.find('input', {'name': 'NP13'})['value']
+        ACK = soup.find('input', {'name': 'NP14'})['value']
+        SAN_LEFT = soup.find('input', {'name': 'SAN_Left'})['value']
+        SAN_MAX = soup.find('input', {'name': 'NP11'})['value']
 
-        self.STR = soup.find('input', {'name': 'NP1'})['value']
-        self.CON = soup.find('input', {'name': 'NP2'})['value']
-        self.POW = soup.find('input', {'name': 'NP3'})['value']
-        self.DEX = soup.find('input', {'name': 'NP4'})['value']
-        self.APP = soup.find('input', {'name': 'NP5'})['value']
-        self.SIZ = soup.find('input', {'name': 'NP6'})['value']
-        self.INT = soup.find('input', {'name': 'NP7'})['value']
-        self.EDU = soup.find('input', {'name': 'NP8'})['value']
+        STR = soup.find('input', {'name': 'NP1'})['value']
+        CON = soup.find('input', {'name': 'NP2'})['value']
+        POW = soup.find('input', {'name': 'NP3'})['value']
+        DEX = soup.find('input', {'name': 'NP4'})['value']
+        APP = soup.find('input', {'name': 'NP5'})['value']
+        SIZ = soup.find('input', {'name': 'NP6'})['value']
+        INT = soup.find('input', {'name': 'NP7'})['value']
+        EDU = soup.find('input', {'name': 'NP8'})['value']
+
+        keys = ['HP', 'MP', 'IDA', 'LUK', 'ACK', 'SAN_LEFT', 'SAN_MAX', 'STR', 'CON', 'POW', 'DEX', 'APP', 'SIZ', 'INT', 'EDU']
+        values = [HP, MP, IDA, LUK, ACK, SAN_LEFT, SAN_MAX, STR, CON, POW, DEX, APP, SIZ, INT, EDU]
+        self.status = dict(zip(keys, values))
 
         self.battle_arts = self.extract_table(soup, 'Table_battle_arts', 'TBAP[]')
         self.find_arts = self.extract_table(soup, 'Table_find_arts', 'TFAP[]')
@@ -75,13 +63,13 @@ class Player:
 
     def print(self):
         table = PrettyTable()
-        table.field_names = ['HP', 'MP', 'IDA', 'LUK', 'ACK']
-        table.add_row([self.HP, self.MP, self.IDA, self.LUK, self.ACK])
+        table.field_names = list(self.status.keys())[:5]
+        table.add_row(list(self.status.values())[:5])
         mutable_status = table.get_string()
 
         table = PrettyTable()
-        table.field_names = ['STR', 'CON', 'POW', 'DEX', 'APP', 'SIZ', 'INT', 'EDU']
-        table.add_row([self.STR, self.CON, self.POW, self.DEX, self.APP, self.SIZ, self.INT, self.EDU])
+        table.field_names = list(self.status.keys())[7:]
+        table.add_row(list(self.status.values())[7:])
         basic_status = table.get_string()
 
         battle_status = ''
@@ -107,7 +95,7 @@ class Player:
         return (f"{self.name}\n"
                 f"{self.url}\n\n"
                 "【能力値】\n"
-                f"SAN値: {self.SAN_LEFT}/{self.SAN_MAX}"
+                f"SAN値: {self.status['SAN_LEFT']}/{self.status['SAN_MAX']}"
                 '\n'
                 f"{mutable_status}\n"
                 '\n'
