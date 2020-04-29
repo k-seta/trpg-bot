@@ -61,7 +61,7 @@ if __name__ == '__main__':
                 url = match_regist.group(1)
                 r.hset(session, user, url)
                 reply = f"{message.author.mention} がキャラシートを登録したよ\n=> {url}"
-                await message.channel.send('registered.')
+                await message.channel.send(reply)
 
             if message.content == '/players':
                 session = message.channel.name
@@ -70,7 +70,7 @@ if __name__ == '__main__':
                 table.field_names = ['user', 'url']
                 for user, url in data.items():
                     table.add_row([user, url])
-                await message.channel.send(f"{message.channel.mention} の参加プレイヤー達を紹介するよ\n```{table.get_string()}```")
+                await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table.get_string()}```")
 
             if validate_ndn(message.content):
                 elements = message.content.split('+')
@@ -95,7 +95,7 @@ if __name__ == '__main__':
                 url = r.hget(session, user)
                 player = Player(user, url)
                 status = player.print()
-                await message.channel.send(f"{message.author.mention} のキャラクターシートだよ\n```{status}```")
+                await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
         except Exception as e:
             await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
