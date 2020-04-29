@@ -12,7 +12,8 @@ e.g.) "/regist https://charasheet.vampire-blood.net/3070216"
 そのチャンネルに登録されているキャラクターシートの一覧を表示します。
 
 ***
-以降のコマンドは /regist で、 https://charasheet.vampire-blood.net のキャラクターシートを登録したときのみ利用できます。
+以下のコマンドは /regist で、https://charasheet.vampire-blood.net のキャラクターシートを登録したときのみ利用できます。
+以下のコマンドを使いたい場合は、キャラクターシート作成時に「自分以外から隠す」のチェックは外して保存するようにしてください。
 ***
 
 /[個数]d[サイコロの面数] < [能力値・技能]
