@@ -6,7 +6,7 @@ e.g.) "/1d100", "/2d6 + 6"
 /regist [キャラクターシートのURL]
 キャラクターシートのURLを登録します。
 キャラクターシートのデータはチャンネル毎に管理されます。
-e.g.) "/regist https://charasheet.vampire-blood.net"
+e.g.) "/regist https://charasheet.vampire-blood.net/3070216"
 
 /players
 そのチャンネルに登録されているキャラクターシートの一覧を表示します。
