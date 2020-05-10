@@ -5,8 +5,9 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from prettytable import PrettyTable
+from player.AbstractPlayer import AbstractPlayer
 
-class Player:
+class CthulhuPlayer(AbstractPlayer):
 
     user = 'user'
     url = 'url'

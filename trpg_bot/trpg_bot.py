@@ -11,7 +11,7 @@ import json
 import redis
 from prettytable import PrettyTable
 
-from Player import Player
+from player.CthulhuPlayer import CthulhuPlayer
 
 def dice_ndn(message_ndn):
     pattern_dice = '(\d+)d(\d+)'
@@ -96,7 +96,7 @@ if __name__ == '__main__':
                     session = message.channel.name
                     user = message.author.name
                     url = r.hget(session, user)
-                    player = Player(user, url)
+                    player = CthulhuPlayer(user, url)
 
                     param_key = message.content.split('<')[1].strip()
                     param_value = player.get(param_key)
@@ -107,7 +107,7 @@ if __name__ == '__main__':
                 session = message.channel.name
                 user = message.author.name
                 url = r.hget(session, user)
-                player = Player(user, url)
+                player = CthulhuPlayer(user, url)
                 status = player.print()
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
