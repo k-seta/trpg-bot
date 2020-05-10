@@ -36,7 +36,7 @@ if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']
     REDIS = os.environ['REDIS_URL']
 
-    GLOBAL_CHANNEL_ID = os.environ['GLOBAL_CHANNEL_ID']
+    GLOBAL_CHANNEL_ID = int(os.environ['GLOBAL_CHANNEL_ID'])
 
     client = discord.Client()
     r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
@@ -113,7 +113,8 @@ if __name__ == '__main__':
         try:
             r.delete(channel.name)
             global_channel = client.get_channel(GLOBAL_CHANNEL_ID)
-            await global_channel.send(f"{channel.mention}のプレイヤーデータを削除したよ")
+            await global_channel.send(f"{message.channel.mention}のプレイヤーデータを削除したよ")
+
         except Exception as e:
             await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
             traceback.print_exc()
