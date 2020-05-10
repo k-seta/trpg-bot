@@ -58,6 +58,13 @@ if __name__ == '__main__':
             if message.content == '/ping':
                 await message.channel.send('pong')
 
+            if message.content == '/redis':
+                reply='\n'
+                for key in r.scan_iter():
+                   reply += f"{key}\n"
+                print(reply)
+                await message.channel.send(f"```{reply}```")
+
             if message.content == '/help':
                 await message.channel.send(reply_help)
 
