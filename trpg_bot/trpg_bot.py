@@ -54,8 +54,8 @@ if __name__ == '__main__':
             match_mode = validate_mode(message.content)
             if match_mode:
                 key = match_mode.group(1)
-                mode_selector.select(message, key)
-                await message.channel.send(f"{key} モードになったよ")
+                mode = mode_selector.select(message, key)
+                await message.channel.send(f"{mode} モードになったよ")
 
             if message.content == '/help':
                 reply = mode_selector.get(message).help()

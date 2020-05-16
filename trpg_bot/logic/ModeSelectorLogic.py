@@ -28,3 +28,4 @@ class ModeSelectorLogic:
             mode = 'cthulhu'
         print(mode)
         self.redis.hset('mode', session, mode)
+        return mode
