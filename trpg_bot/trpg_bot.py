@@ -54,6 +54,10 @@ if __name__ == '__main__':
                    reply += f"{key}\n"
                 await message.channel.send(f"```{reply}```")
 
+            if message.content == '/sync':
+                dbx.sync()
+                await message.channel.send('Dice lists were synced with Dropbox.')
+
             match_mode = validate_mode(message.content)
             if match_mode:
                 key = match_mode.group(1)
