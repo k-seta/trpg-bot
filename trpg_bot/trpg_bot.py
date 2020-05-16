@@ -54,30 +54,30 @@ if __name__ == '__main__':
             match_mode = validate_mode(message.content)
             if match_mode:
                 key = match_mode.group(1)
-                mode_selector.select(key)
+                mode_selector.select(message, key)
                 await message.channel.send(f"{key} モードになったよ")
 
             if message.content == '/help':
-                reply = mode_selector.get().help()
+                reply = mode_selector.get(message).help()
                 await message.channel.send(reply)
 
             match_regist = validate_regist(message.content)
             if match_regist:
                 url = match_regist.group(1)
-                mode_selector.get().regist(message, url)
+                mode_selector.get(message).regist(message, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if message.content == '/players':
-                table = mode_selector.get().players(message)
+                table = mode_selector.get(message).players(message)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if validate_ndn(message.content):
-                result = mode_selector.get().dice(message)
+                result = mode_selector.get(message).dice(message)
                 reply = f"{message.author.mention} がサイコロを振ったよ\n=> {result}"
                 await message.channel.send(reply)
 
             if message.content == '/status':
-                status = mode_selector.get().status(message)
+                status = mode_selector.get(message).status(message)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
         except Exception as e:

@@ -8,13 +8,23 @@ class ModeSelectorLogic:
 
     def __init__(self, redis):
         self.redis = redis
-        self.mode = DefaultMode(redis, './trpg_bot/resources/usage_default.md')
+        self.modes = { 
+            'default': DefaultMode(self.redis, './trpg_bot/resources/usage_default.md'),
+            'cthulhu': CthulhuMode(self.redis, './trpg_bot/resources/usage_cthulhu.md')
+        }
 
-    def get(self):
-        return self.mode
+    def get(self, message):
+        session = message.channel.name
+        key = self.redis.hget('mode', session)
+        print(key)
+        if key == None or not key in self.modes.keys():
+            key = 'default'
+        return self.modes[key]
 
-    def select(self, key):
-        if key in ['default', 'デフォルト']:
-            self.mode = DefaultMode(self.redis, './trpg_bot/resources/usage_default.md')
+    def select(self, message, key):
+        session = message.channel.name
+        mode = 'default'
         if key in ['cthulhu', 'クトゥルフ']:
-            self.mode = CthulhuMode(self.redis, './trpg_bot/resources/usage_cthulhu.md')
+            mode = 'cthulhu'
+        print(mode)
+        self.redis.hset('mode', session, mode)
