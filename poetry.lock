@@ -118,6 +118,18 @@ url = "https://github.com/Rapptz/discord.py.git"
 
 [[package]]
 category = "main"
+description = "Official Dropbox API Client"
+name = "dropbox"
+optional = false
+python-versions = "*"
+version = "10.1.2"
+
+[package.dependencies]
+requests = ">=2.16.2"
+six = ">=1.12.0"
+
+[[package]]
+category = "main"
 description = "Internationalized Domain Names in Applications (IDNA)"
 name = "idna"
 optional = false
@@ -276,7 +288,7 @@ security = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)"]
 socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7)", "win-inet-pton"]
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
@@ -355,7 +367,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "69ee6e5f01f1bb3fa8cffd8d08410d9eebe5253f2882e78d85d900063e5af669"
+content-hash = "c36bd2af1cde6acfe4d7e36103cc59a337e9fdf1a538ba75e2b1788c95c3e394"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -403,6 +415,11 @@ colorama = [
     {file = "colorama-0.4.3.tar.gz", hash = "sha256:e96da0d330793e2cb9485e9ddfd918d456036c7149416295932478192f4436a1"},
 ]
 "discord.py" = []
+dropbox = [
+    {file = "dropbox-10.1.2-py2-none-any.whl", hash = "sha256:fddb4d1aa5ff2aba6f41a831deab8a7883b6e284b5e67e759583d40f5dc0d76d"},
+    {file = "dropbox-10.1.2-py3-none-any.whl", hash = "sha256:284285434b41297ab5dea94b07850d53b8470d628283701cc646fe06ea888735"},
+    {file = "dropbox-10.1.2.tar.gz", hash = "sha256:1d0bb2a919da26c46bbd1ba936ae44165385e08f22be64fb634a952a751b4f04"},
+]
 idna = [
     {file = "idna-2.9-py2.py3-none-any.whl", hash = "sha256:a068a21ceac8a4d63dbfd964670474107f541babbd2250d61922f029858365fa"},
     {file = "idna-2.9.tar.gz", hash = "sha256:7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb"},

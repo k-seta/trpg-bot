@@ -6,6 +6,7 @@ import re
 import traceback
 import discord
 import redis
+import dropbox
 
 from logic.ModeSelectorLogic import ModeSelectorLogic
 
@@ -18,16 +19,24 @@ def validate_regist(message):
     return re.match(pattern, message)
 
 def validate_ndn(message):
-    pattern = '^/.*?(\d+d\d+)'
+    pattern = '^/.*?(\d*d\d+)'
     return re.match(pattern, message)
 
 if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']
     REDIS = os.environ['REDIS_URL']
     GLOBAL_CHANNEL_ID = int(os.environ['GLOBAL_CHANNEL_ID'])
+    DROPBOX_TOKEN = os.environ['DROPBOX_TOKEN']
 
     client = discord.Client()
     r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
+
+    dbx = dropbox.Dropbox(DROPBOX_TOKEN)
+    entries = dbx.files_list_folder('/mayokin').entries
+    for entry in entries:
+        if isinstance(entry, dropbox.files.FileMetadata):
+            dbx.files_download_to_file(f"./trpg_bot/resources/mayokin/{entry.name}", entry.path_lower)
+            print(f"downloaded {entry.path_lower}")
 
     mode_selector = ModeSelectorLogic(r)
 

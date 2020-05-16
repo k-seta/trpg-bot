@@ -3,6 +3,7 @@
 
 from mode.DefaultMode import DefaultMode
 from mode.CthulhuMode import CthulhuMode
+from mode.MayokinMode import MayokinMode
 
 class ModeSelectorLogic:
 
@@ -10,7 +11,8 @@ class ModeSelectorLogic:
         self.redis = redis
         self.modes = { 
             'default': DefaultMode(self.redis, './trpg_bot/resources/usage_default.md'),
-            'cthulhu': CthulhuMode(self.redis, './trpg_bot/resources/usage_cthulhu.md')
+            'cthulhu': CthulhuMode(self.redis, './trpg_bot/resources/usage_cthulhu.md'),
+            'mayokin': MayokinMode(self.redis, './trpg_bot/resources/usage_mayokin.md')
         }
 
     def get(self, message):
@@ -25,5 +27,7 @@ class ModeSelectorLogic:
         mode = 'default'
         if key in ['cthulhu', 'クトゥルフ']:
             mode = 'cthulhu'
+        if key in ['mayokin', 'マヨキン']:
+            mode = 'mayokin'
         self.redis.hset('mode', session, mode)
         return mode
