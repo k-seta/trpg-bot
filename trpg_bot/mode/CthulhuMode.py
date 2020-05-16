@@ -17,7 +17,7 @@ class CthulhuMode(DefaultMode):
         return player.print()
 
     def dice(self, message):
-        result = super().dice(message)
+        result, sum_dices = super().dice(message)
         if '<' in message.content:
             session = message.channel.name
             user = message.author.name
