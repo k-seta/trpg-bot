@@ -35,8 +35,8 @@ if __name__ == '__main__':
     entries = dbx.files_list_folder('/mayokin').entries
     for entry in entries:
         if isinstance(entry, dropbox.files.FileMetadata):
-            dbx.files_download_to_file(f"./trpg_bot/resources/mayokin/{entries[0].name}", entries[0].path_lower)
-            print(f"downloaded {entries[0].path_lower}")
+            dbx.files_download_to_file(f"./trpg_bot/resources/mayokin/{entry.name}", entry.path_lower)
+            print(f"downloaded {entry.path_lower}")
 
     mode_selector = ModeSelectorLogic(r)
 

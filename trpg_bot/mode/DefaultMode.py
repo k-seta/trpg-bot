@@ -51,4 +51,4 @@ class DefaultMode:
                 dices.append([int(match_const.group(1))] if match_const else [])
 
         sum_dices = sum(list(itertools.chain.from_iterable(dices)))
-        return f"{sum_dices}    {str(dices)[1:-1]}"
+        return f"{sum_dices}    {str(dices)[1:-1]}", sum_dices
