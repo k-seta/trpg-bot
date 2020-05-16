@@ -48,7 +48,6 @@ if __name__ == '__main__':
                 reply='\n'
                 for key in r.scan_iter():
                    reply += f"{key}\n"
-                print(reply)
                 await message.channel.send(f"```{reply}```")
 
             match_mode = validate_mode(message.content)

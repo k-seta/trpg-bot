@@ -16,7 +16,6 @@ class ModeSelectorLogic:
     def get(self, message):
         session = message.channel.name
         key = self.redis.hget('mode', session)
-        print(key)
         if key == None or not key in self.modes.keys():
             key = 'default'
         return self.modes[key]
@@ -26,6 +25,5 @@ class ModeSelectorLogic:
         mode = 'default'
         if key in ['cthulhu', 'クトゥルフ']:
             mode = 'cthulhu'
-        print(mode)
         self.redis.hset('mode', session, mode)
         return mode
