@@ -6,9 +6,9 @@ import re
 import traceback
 import discord
 import redis
-import dropbox
 
 from logic.ModeSelectorLogic import ModeSelectorLogic
+from logic.DropboxLogic import DropboxLogic
 
 def validate_mode(message):
     pattern = '^/mode (.*)'
@@ -31,17 +31,12 @@ if __name__ == '__main__':
     client = discord.Client()
     r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
 
-    dbx = dropbox.Dropbox(DROPBOX_TOKEN)
-    entries = dbx.files_list_folder('/mayokin').entries
-    for entry in entries:
-        if isinstance(entry, dropbox.files.FileMetadata):
-            dbx.files_download_to_file(f"./trpg_bot/resources/mayokin/{entry.name}", entry.path_lower)
-            print(f"downloaded {entry.path_lower}")
-
     mode_selector = ModeSelectorLogic(r)
+    dbx = DropboxLogic(DROPBOX_TOKEN)
 
     @client.event
     async def on_ready():
+        dbx.sync()
         print('activated trpg-bot client.')
 
     @client.event
@@ -58,6 +53,10 @@ if __name__ == '__main__':
                 for key in r.scan_iter():
                    reply += f"{key}\n"
                 await message.channel.send(f"```{reply}```")
+
+            if message.content == '/sync':
+                dbx.sync()
+                await message.channel.send('Dice lists were synced with Dropbox.')
 
             match_mode = validate_mode(message.content)
             if match_mode:
