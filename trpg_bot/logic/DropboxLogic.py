@@ -12,7 +12,8 @@ class DropboxLogic:
 
     def sync(self):
         target_dir = './trpg_bot/resources/mayokin'
-        shutil.rmtree(target_dir)
+        if(os.path.exists(target_dir)):
+            shutil.rmtree(target_dir)
         os.mkdir(target_dir)
         entries = self.dbx.files_list_folder('/mayokin').entries
         for entry in entries:
