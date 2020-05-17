@@ -18,13 +18,15 @@ class MayokinMode(DefaultMode):
             name = match_d66.group(1).strip()
             path = f"./trpg_bot/resources/mayokin/{name}.txt"
             value = DiceLogic.roll_d66()
-            return DiceListLogic.disp(path, value) if len(name) != 0 else value
+            res_str = DiceListLogic.disp(path, value) if len(name) != 0 else value
+            return res_str, sum_dices
 
-        result, sum_dices = super().dice(message)
+        res_default, sum_dices = super().dice(message)
         match_ndn = re.search('\d+d\d+ (.+)', message.content)
         if match_ndn:
             name = match_ndn.group(1).strip()
             path = f"./trpg_bot/resources/mayokin/{name}.txt"
             list_item = DiceListLogic.disp(path, sum_dices)
-            return f"{result}\n{list_item}"
-        return result, sum_dices
+            res_str = f"{result}\n{list_item}"
+            return res_str, sum_dices
+        return res_default, sum_dices
