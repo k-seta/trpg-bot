@@ -6,6 +6,7 @@ import re
 import traceback
 import discord
 import redis
+import git
 
 from logic.ModeSelectorLogic import ModeSelectorLogic
 from logic.DropboxLogic import DropboxLogic
@@ -47,6 +48,12 @@ if __name__ == '__main__':
 
             if message.content == '/ping':
                 await message.channel.send('pong')
+
+            if message.content == '/debug':
+                repo = git.Repo(search_parent_directories=True)
+                sha = repo.head.object.hexsha
+                ls_dropbox = os.listdir('./trpg_bot/resources/mayokin')
+                await message.channel.send(f"```\nrevision: {sha}\nresources_dropbox: {ls_dropbox}```")
 
             if message.content == '/redis':
                 reply='\n'
