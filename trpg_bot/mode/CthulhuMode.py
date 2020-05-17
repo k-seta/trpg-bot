@@ -17,7 +17,7 @@ class CthulhuMode(DefaultMode):
         return player.print()
 
     def dice(self, message):
-        result = super().dice(message)
+        result, sum_dices = super().dice(message)
         if '<' in message.content:
             session = message.channel.name
             user = message.author.name
@@ -27,4 +27,4 @@ class CthulhuMode(DefaultMode):
             param_key = message.content.split('<')[1].strip()
             param_value = player.get(param_key)
             result += f" < {param_key}({param_value})"
-        return result
+        return result, sum_dices
