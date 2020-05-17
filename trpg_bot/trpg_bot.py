@@ -27,7 +27,7 @@ if __name__ == '__main__':
     REDIS = os.environ['REDIS_URL']
     GLOBAL_CHANNEL_ID = int(os.environ['GLOBAL_CHANNEL_ID'])
     DROPBOX_TOKEN = os.environ['DROPBOX_TOKEN']
-    COMMIT_HASH = os.environ['COMMIT_HASH']
+    COMMIT_HASH = os.environ['COMMIT_HASH'] if 'COMMIT_HASH' in os.environ.keys() else 'None'
 
     client = discord.Client()
     r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
