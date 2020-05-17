@@ -64,7 +64,7 @@ class CthulhuPlayer(AbstractPlayer):
                 # 追加した技能名
                 return el.find('input')['value'] if el.find('input')['value'] else 'その他'
             elif el.find('input'):
-                # 既存の技能名 + (詳細)
+                # 技能名 + (詳細)
                 return el.text[:-1] + el.find('input')['value'] + ')'
             else:
                 # 技能名
