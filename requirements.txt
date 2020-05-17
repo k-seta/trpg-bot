@@ -7,6 +7,8 @@ certifi==2020.4.5.1
 chardet==3.0.4
 -e git+https://github.com/Rapptz/discord.py.git@755ab283112c297977d4e5b4e7ad4307a6e9b52f#egg=discord.py
 dropbox==10.1.2
+gitdb==4.0.5
+GitPython==3.1.2
 google-api-core==1.17.0
 google-api-python-client==1.8.3
 google-auth==1.14.3
@@ -35,6 +37,7 @@ redis==3.4.1
 requests==2.23.0
 rsa==4.0
 six==1.14.0
+smmap==3.0.4
 soupsieve==1.9.5
 typing-extensions==3.7.4.2
 uritemplate==3.0.1
