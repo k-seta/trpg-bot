@@ -79,7 +79,7 @@ if __name__ == '__main__':
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if validate_ndn(message.content):
-                result = mode_selector.get(message).dice(message)
+                result, _ = mode_selector.get(message).dice(message)
                 reply = f"{message.author.mention} がサイコロを振ったよ\n=> {result}"
                 await message.channel.send(reply)
 
