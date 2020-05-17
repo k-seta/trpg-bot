@@ -6,7 +6,6 @@ import re
 import traceback
 import discord
 import redis
-import git
 
 from logic.ModeSelectorLogic import ModeSelectorLogic
 from logic.DropboxLogic import DropboxLogic
@@ -28,6 +27,7 @@ if __name__ == '__main__':
     REDIS = os.environ['REDIS_URL']
     GLOBAL_CHANNEL_ID = int(os.environ['GLOBAL_CHANNEL_ID'])
     DROPBOX_TOKEN = os.environ['DROPBOX_TOKEN']
+    COMMIT_HASH = os.environ['COMMIT_HASH']
 
     client = discord.Client()
     r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
@@ -50,10 +50,8 @@ if __name__ == '__main__':
                 await message.channel.send('pong')
 
             if message.content == '/debug':
-                repo = git.Repo(search_parent_directories=True)
-                sha = repo.head.object.hexsha
                 ls_dropbox = os.listdir('./trpg_bot/resources/mayokin')
-                await message.channel.send(f"```\nrevision: {sha}\nresources_dropbox: {ls_dropbox}```")
+                await message.channel.send(f"```\nrevision: {COMMIT_HASH}\nresources_dropbox: {ls_dropbox}```")
 
             if message.content == '/redis':
                 reply='\n'
