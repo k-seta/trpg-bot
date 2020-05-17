@@ -58,7 +58,19 @@ class CthulhuPlayer(AbstractPlayer):
         self.know_arts = self.extract_table(soup, 'Table_know_arts', 'TKAP[]')
 
     def extract_table(self, soup, table_id, value_name):
-        keys = [key.text if key.text != '' else 'その他' for key in soup.find('table', {'id': table_id}).find_all('th',{})[8:]]
+        elements = soup.find('table', {'id': table_id}).find_all('th',{})[8:]
+        def el2text(el):
+            if el.text == '':
+                # 追加した技能名
+                return el.find('input')['value'] if el.find('input')['value'] else 'その他'
+            elif el.find('input'):
+                # 技能名 + (詳細)
+                return f"{el.text.replace('()', '')}({el.find('input')['value']})"
+            else:
+                # 技能名
+                return el.text
+
+        keys = list(map(el2text, elements))
         values = [value['value'] for value in soup.find('table', {'id': table_id}).find_all('input', {'name': value_name})]
         return dict(zip(keys, values))
 
