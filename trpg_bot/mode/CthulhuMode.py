@@ -27,4 +27,4 @@ class CthulhuMode(DefaultMode):
             param_key = message.content.split('<')[1].strip()
             param_value = player.get(param_key)
             result += f" < {param_key}({param_value})"
-        return result
+        return result, sum_dices

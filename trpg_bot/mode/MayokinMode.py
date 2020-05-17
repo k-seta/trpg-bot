@@ -27,4 +27,4 @@ class MayokinMode(DefaultMode):
             path = f"./trpg_bot/resources/mayokin/{name}.txt"
             list_item = DiceListLogic.disp(path, sum_dices)
             return f"{result}\n{list_item}"
-        return result
+        return result, sum_dices
