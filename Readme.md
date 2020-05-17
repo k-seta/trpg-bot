@@ -6,6 +6,7 @@ TRPG のオンラインセッションを行う際の補助として使うため
 - Python >= 3.6.9
 - Poetry >= 1.0.5
 - heroku-cli >= 7.26.2
+- docker-compose >= 1.12.0
 
 ## Usage
 ```
@@ -26,7 +27,11 @@ bot > @you がサイコロを振ったよ
 ## Development
 1. `git clone https://github.com/k-seta/trpg-bot.git` を実行する
 1. clone してきた repository 内で `poetry install` を実行して、 pip の依存関係を解決する
-1. bot の token は環境変数から取得するので、 `export DISCORD_BOT_TOKEN={discord bot の token}` を実行する
+1. discord bot の token は環境変数から取得するので、 `export DISCORD_BOT_TOKEN={discord bot の token}` を実行する
+1. discord の global チャンネルのIDは環境変数から取得するので、`export GLOBAL_CHANNEL_ID={discord の global channel id}`
+1. redis の URL は環境変数から取得するので、 `export REDIS_URL=redis://localhost:6379` を実行する
+1. dropbox の token は環境変数から取得するので、 `export DROPBOX_TOKEN={dropbox の token}` を実行する
+1. `docker-compose up -d` を実行して、redisをdockerで起動する
 1. `poetry shell` を実行して、 virtualenv を起動する
 1. `python trpg_bot/trpg_bot.py` で bot の client をローカルで起動できる
 
