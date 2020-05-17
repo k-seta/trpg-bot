@@ -19,7 +19,7 @@ class MayokinMode(DefaultMode):
             path = f"./trpg_bot/resources/mayokin/{name}.txt"
             value = DiceLogic.roll_d66()
             res_str = DiceListLogic.disp(path, value) if len(name) != 0 else value
-            return res_str, sum_dices
+            return res_str, value
 
         res_default, sum_dices = super().dice(message)
         match_ndn = re.search('\d+d\d+ (.+)', message.content)
