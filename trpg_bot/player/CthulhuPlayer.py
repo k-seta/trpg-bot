@@ -74,7 +74,8 @@ class CthulhuPlayer(AbstractPlayer):
         values = [value['value'] for value in soup.find('table', {'id': table_id}).find_all('input', {'name': value_name})]
         return dict(zip(keys, values))
 
-    def get(self, param):
+    def get(self, input_name):
+        param = self.convert_arts_name(input_name)
         if param == 'SAN':
             return self.status['SAN_LEFT']
         if param in self.status.keys():

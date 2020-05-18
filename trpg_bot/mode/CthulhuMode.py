@@ -24,7 +24,7 @@ class CthulhuMode(DefaultMode):
             url = self.redis.hget(session, user)
             player = CthulhuPlayer(user, url)
 
-            param_key = player.convert_arts_name(message.content.split('<')[1].strip())
+            param_key = message.content.split('<')[1].strip()
             param_value = player.get(param_key)
             result += f" < {param_key}({param_value})"
         return result, sum_dices
