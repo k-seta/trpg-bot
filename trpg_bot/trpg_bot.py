@@ -11,18 +11,6 @@ from logic.ModeSelectorLogic import ModeSelectorLogic
 from logic.DropboxLogic import DropboxLogic
 from logic.CommandInterpreterLogic import CommandInterpreter
 
-def validate_mode(message):
-    pattern = '^/mode (.*)'
-    return re.match(pattern, message)
-
-def validate_regist(message):
-    pattern = '^/regist (http.*)'
-    return re.match(pattern, message)
-
-def validate_ndn(message):
-    pattern = '^/.*?(\d*d\d+)'
-    return re.match(pattern, message)
-
 if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']
     REDIS = os.environ['REDIS_URL']
