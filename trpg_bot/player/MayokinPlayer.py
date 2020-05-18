@@ -59,8 +59,4 @@ class MayokinPlayer(AbstractPlayer):
     return (f"{self.name}\n"
             f"{self.url}\n\n"
             f"{profile}\n"
-            '\n'
             f"{status}\n")
-
-
-
