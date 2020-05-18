@@ -141,3 +141,12 @@ class CthulhuPlayer(AbstractPlayer):
                 f"{commu_status}\n"
                 '【知識技能】\n'
                 f"{know_status}\n")
+
+    # 技能の入力に幅を持たせる
+    def convert_arts_name(self, arts_name):
+        if arts_name == "こぶし" or arts_name == "パンチ":
+            return "こぶし（パンチ）"
+        elif arts_name == "マーシャル":
+            return "マーシャルアーツ"
+        else:
+            return arts_name
