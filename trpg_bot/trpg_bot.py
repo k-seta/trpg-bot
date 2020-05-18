@@ -9,6 +9,7 @@ import redis
 
 from logic.ModeSelectorLogic import ModeSelectorLogic
 from logic.DropboxLogic import DropboxLogic
+from logic.CommandInterpreterLogic import CommandInterpreter
 
 def validate_mode(message):
     pattern = '^/mode (.*)'
@@ -46,50 +47,47 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
-            if message.content == '/ping':
+            command, *params = CommandInterpreter.parse(message)
+            
+            if command == 'ping':
                 await message.channel.send('pong')
 
-            if message.content == '/debug':
+            if command == 'debug':
                 ls_dropbox = os.listdir('./trpg_bot/resources/mayokin')
                 await message.channel.send(f"```\nrevision: {COMMIT_HASH}\nresources_dropbox: {ls_dropbox}```")
 
-            if message.content == '/redis':
-                reply='\n'
-                for key in r.scan_iter():
-                   reply += f"{key}\n"
-                await message.channel.send(f"```{reply}```")
+            if command == 'redis':
+                reply = '\n'.join([key for key in r.scan_iter()])
+                await message.channel.send(f"```\n{reply}```")
 
-            if message.content == '/sync':
+            if command == 'sync':
                 await message.channel.send('Start syncing...')
                 dbx.sync()
                 await message.channel.send('Dice lists were synced with Dropbox.')
 
-            match_mode = validate_mode(message.content)
-            if match_mode:
-                key = match_mode.group(1)
-                mode = mode_selector.select(message, key)
+            if command == 'mode':
+                mode_name = params[0]
+                mode = mode_selector.select(message, mode_name)
                 await message.channel.send(f"{mode} モードになったよ")
 
-            if message.content == '/help':
-                reply = mode_selector.get(message).help()
-                await message.channel.send(reply)
+            if command == 'help':
+                help = mode_selector.get(message).help()
+                await message.channel.send(help)
 
-            match_regist = validate_regist(message.content)
-            if match_regist:
-                url = match_regist.group(1)
+            if command == 'regist':
+                url = params[0]
                 mode_selector.get(message).regist(message, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
-            if message.content == '/players':
+            if command == 'players':
                 table = mode_selector.get(message).players(message)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
-            if validate_ndn(message.content):
+            if command in ['ndn', 'dn']:
                 result, _ = mode_selector.get(message).dice(message)
-                reply = f"{message.author.mention} がサイコロを振ったよ\n=> {result}"
-                await message.channel.send(reply)
+                await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
-            if message.content == '/status':
+            if command == 'status':
                 status = mode_selector.get(message).status(message)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
