@@ -60,6 +60,7 @@ if __name__ == '__main__':
                 await message.channel.send(f"```{reply}```")
 
             if message.content == '/sync':
+                await message.channel.send('Start syncing...')
                 dbx.sync()
                 await message.channel.send('Dice lists were synced with Dropbox.')
 
