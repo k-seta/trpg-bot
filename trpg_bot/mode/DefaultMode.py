@@ -41,11 +41,11 @@ class DefaultMode:
         dices = []
         terms = message.content.split('+')
         for e in terms:
-            amount, size = CommandInterpreterLogic.match_ndn(e)
-            if amount:
+            is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(e)
+            if is_ndn:
                 dices.append(DiceLogic.roll(amount, size))
                 continue
-            const = CommandInterpreterLogic.match_const(e)
+            is_const, (const,) = CommandInterpreterLogic.match_const(e)
             if const:
                 dices.append([const])
 
