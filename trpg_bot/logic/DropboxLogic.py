@@ -20,4 +20,5 @@ class DropboxLogic:
         with zipfile.ZipFile(zip_path) as zf:
             zf.extractall(target_dir)
         os.remove(zip_path)
+        print('downloaded txt files.')
 
