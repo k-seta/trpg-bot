@@ -8,6 +8,7 @@ import redis
 from prettytable import PrettyTable
 
 from logic.DiceLogic import DiceLogic
+from logic.CommandInterpreterLogic import CommandInterpreter
 
 class DefaultMode:
 
@@ -40,15 +41,13 @@ class DefaultMode:
         dices = []
         terms = message.content.split('+')
         for e in terms:
-            match_ndn = re.search('(\d+)d(\d+)', e)
-            if match_ndn:
-                amount = int(match_ndn.group(1))
-                size = int(match_ndn.group(2))
+            amount, size = CommandInterpreter.match_ndn(e)
+            if amount:
                 dices.append(DiceLogic.roll(amount, size))
                 continue
-            match_const = re.search('(\d+)', e)
-            if match_const:
-                dices.append([int(match_const.group(1))] if match_const else [])
+            const = CommandInterpreter.match_const(e)
+            if const:
+                dices.append([const])
 
         sum_dices = sum(list(itertools.chain.from_iterable(dices)))
         return f"{sum_dices}    {str(dices)[1:-1]}", sum_dices

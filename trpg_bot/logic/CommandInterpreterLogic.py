@@ -5,7 +5,35 @@ import re
 
 class CommandInterpreter():
 
-  def parse(message):
+  def match_ndn(command):
+    res = re.search('(\d+)d(\d+)', command)
+    if res:
+      return map(int, res.groups())
+    else:
+      return 0, 0
+  
+  def match_const(command):
+    res = re.search('(\d+)', command)
+    if res:
+      return int(res[0])
+    else:
+      return None
+  
+  def match_d66(command):
+    res = re.search('/(d66)(.*)', command)
+    if res:
+      return res.groups()
+    else:
+      return None, None
+  
+  def match_ndn_txt(command):
+    res = re.search('(\d+d\d+) (.+)', command)
+    if res:
+      return res.groups()
+    else:
+      return None, None
+
+  def interp_command(message):
     command = message.content
 
     if command[:5] == '/ping':
