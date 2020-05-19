@@ -65,7 +65,7 @@ class CommandInterpreterLogic():
     if match_regist:
       return 'regist', *match_regist.groups()
 
-    match_dn = re.match('^/(d\d+.*)', command)
+    match_dn = re.match('^/(d\d+ .*)', command)
     if match_dn:
       return 'dn', *match_dn.groups()
     
