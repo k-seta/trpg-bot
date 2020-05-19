@@ -33,8 +33,7 @@ class CommandInterpreterLogic():
     else:
       return False, (None, None)
 
-  def interp_command(message):
-    command = message.content
+  def interp_command(command):
 
     if '/ping' in command:
       return 'ping', None
