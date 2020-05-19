@@ -8,7 +8,7 @@ import redis
 from prettytable import PrettyTable
 
 from logic.DiceLogic import DiceLogic
-from logic.CommandInterpreterLogic import CommandInterpreter
+from logic.CommandInterpreterLogic import CommandInterpreterLogic
 
 class DefaultMode:
 
@@ -41,11 +41,11 @@ class DefaultMode:
         dices = []
         terms = message.content.split('+')
         for e in terms:
-            amount, size = CommandInterpreter.match_ndn(e)
+            amount, size = CommandInterpreterLogic.match_ndn(e)
             if amount:
                 dices.append(DiceLogic.roll(amount, size))
                 continue
-            const = CommandInterpreter.match_const(e)
+            const = CommandInterpreterLogic.match_const(e)
             if const:
                 dices.append([const])
 

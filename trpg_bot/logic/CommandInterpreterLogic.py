@@ -3,7 +3,7 @@
 
 import re
 
-class CommandInterpreter():
+class CommandInterpreterLogic():
 
   def match_ndn(command):
     res = re.search('(\d+)d(\d+)', command)

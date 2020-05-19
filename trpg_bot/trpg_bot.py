@@ -9,7 +9,7 @@ import redis
 
 from logic.ModeSelectorLogic import ModeSelectorLogic
 from logic.DropboxLogic import DropboxLogic
-from logic.CommandInterpreterLogic import CommandInterpreter
+from logic.CommandInterpreterLogic import CommandInterpreterLogic
 
 if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']
@@ -35,7 +35,7 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
-            command, *params = CommandInterpreter.interp_command(message)
+            command, *params = CommandInterpreterLogic.interp_command(message)
             
             if command == 'ping':
                 await message.channel.send('pong')

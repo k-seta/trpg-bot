@@ -6,7 +6,7 @@ import re
 from mode.DefaultMode import DefaultMode
 from logic.DiceListLogic import DiceListLogic
 from logic.DiceLogic import DiceLogic
-from logic.CommandInterpreterLogic import CommandInterpreter
+from logic.CommandInterpreterLogic import CommandInterpreterLogic
 from player.MayokinPlayer import MayokinPlayer
 
 class MayokinMode(DefaultMode):
@@ -22,7 +22,7 @@ class MayokinMode(DefaultMode):
         return player.print()
 
     def dice(self, message):
-        match_d66, name = CommandInterpreter.match_d66(message.content)
+        match_d66, name = CommandInterpreterLogic.match_d66(message.content)
         if match_d66:
             path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
             value = DiceLogic.roll_d66()
@@ -30,7 +30,7 @@ class MayokinMode(DefaultMode):
             return res_str, value
 
         res_default, sum_dices = super().dice(message)
-        match_ndn_txt, name = CommandInterpreter.match_ndn_txt(message.content)
+        match_ndn_txt, name = CommandInterpreterLogic.match_ndn_txt(message.content)
         if match_ndn_txt:
             path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
             list_item = DiceListLogic.disp(path, sum_dices)
