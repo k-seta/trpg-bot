@@ -36,40 +36,40 @@ class CommandInterpreterLogic():
   def interp_command(command):
 
     if '/ping' in command:
-      return 'ping', None
+      return 'ping', ()
 
     if '/debug' in command:
-      return 'debug', None
+      return 'debug', ()
     
     if '/redis' in command:
-      return 'redis', None
+      return 'redis', ()
 
     if '/sync' in command:
-      return 'sync', None
+      return 'sync', ()
 
     if '/help' in command:
-      return 'help', None
+      return 'help', ()
 
     if '/status' in command:
-      return 'status', None
+      return 'status', ()
 
     if '/players' in command:
-      return 'players', None
+      return 'players', ()
 
     match_mode = re.match('^/mode (.*)', command)
     if match_mode:
-      return  'mode', *match_mode.groups()
+      return  'mode', match_mode.groups()
 
     match_regist = re.match('^/regist (http.*)', command)
     if match_regist:
-      return 'regist', *match_regist.groups()
+      return 'regist', match_regist.groups()
 
     match_dn = re.match('^/(d\d+ .*)', command)
     if match_dn:
-      return 'dn', *match_dn.groups()
+      return 'dn', match_dn.groups()
     
     match_ndn = re.match('^/(\d+d\d+.*)', command)
     if match_ndn:
-      return 'ndn', *match_ndn.groups()
+      return 'ndn', match_ndn.groups()
     
     return '', None
