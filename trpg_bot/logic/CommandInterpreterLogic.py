@@ -36,25 +36,25 @@ class CommandInterpreter():
   def interp_command(message):
     command = message.content
 
-    if command[:5] == '/ping':
+    if '/ping' in command:
       return 'ping', None
 
-    if command[:6] == '/debug':
+    if '/debug' in command:
       return 'debug', None
     
-    if command[:6] == '/redis':
+    if '/redis' in command:
       return 'redis', None
 
-    if command[:5] == '/sync':
+    if '/sync' in command:
       return 'sync', None
 
-    if command[:5] == '/help':
+    if '/help' in command:
       return 'help', None
 
-    if command[:7] == '/status':
+    if '/status' in command:
       return 'status', None
 
-    if command[:8] == '/players':
+    if '/players' in command:
       return 'players', None
 
     match_mode = re.match('^/mode (.*)', command)
