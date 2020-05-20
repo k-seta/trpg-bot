@@ -71,8 +71,12 @@ if __name__ == '__main__':
                 table = mode_selector.get(message).players(message)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
-            if command in ['ndn', 'dn']:
-                result, _ = mode_selector.get(message).dice(message)
+            if command == 'choice':
+                result = mode_selector.get(message).choice(message)
+                await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
+
+            if command == 'calc':
+                result = mode_selector.get(message).calc(message)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':

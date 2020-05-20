@@ -21,19 +21,33 @@ class MayokinMode(DefaultMode):
         player = MayokinPlayer(user, url)
         return player.print()
 
-    def dice(self, message):
-        is_d66, (_, name) = CommandInterpreterLogic.match_d66(message.content)
-        if is_d66:
-            path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
-            value = DiceLogic.roll_d66()
-            res_str = DiceListLogic.disp(path, value) if len(name) != 0 else value
-            return res_str, value
+    def calc(self, message):
+        session = message.channel.name
+        user = message.author.name
+        url = self.redis.hget(session, user)
+        player = MayokinPlayer(user, url)
+        return self._calc_internal(message, player)
 
-        res_default, sum_dices = super().dice(message)
-        is_ndn_txt, (_, name) = CommandInterpreterLogic.match_ndn_txt(message.content)
-        if is_ndn_txt:
-            path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
-            list_item = DiceListLogic.disp(path, sum_dices)
-            res_str = f"{res_default}\n{list_item}"
-            return res_str, sum_dices
-        return res_default, sum_dices
+    def choice(self, message):
+        calced_tokens = self._dice_internal(message)
+
+        left_sum = 0
+        op = ''
+        right_list_name = ''
+
+        for token in calced_tokens:
+
+            if token in ['/', '+']:
+                continue
+
+            if token == '=':
+                op = token
+                continue
+
+            if op == '':
+                left_sum += sum(token)
+            else:
+                right_list_name = token
+        
+        path = f"./trpg_bot/resources/mayokin/{right_list_name}.txt"
+        return DiceListLogic.disp(path, left_sum)

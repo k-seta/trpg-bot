@@ -5,13 +5,6 @@ import re
 
 class CommandInterpreterLogic():
 
-  def match_ndn(command):
-    res = re.search('(\d+)d(\d+)', command)
-    if res:
-      return True, map(int, res.groups())
-    else:
-      return False, (0, 0)
-  
   def match_const(command):
     res = re.search('(\d+)', command)
     if res:
@@ -19,20 +12,23 @@ class CommandInterpreterLogic():
     else:
       return False, (0,)
   
-  def match_d66(command):
-    res = re.search('/(d66) (.*)', command)
+  def match_ndn(command):
+    res = re.search('(\d+)d(\d+)', command)
     if res:
-      return True, res.groups()
+      return True, tuple(map(int, res.groups()))
     else:
-      return False, (None, None)
-  
-  def match_ndn_txt(command):
-    res = re.search('(\d+d\d+) (.+)', command)
+      return False, (0, 0)
+
+  def match_d66(command):
+    res = re.search('(d66)', command)
     if res:
       return True, res.groups()
     else:
       return False, (None, None)
 
+  def parse_dices(command):
+    return re.findall('(/|[\+<>=]|\d+d\d+|\d+|d\d+|[^\s\+<>=\d]+)', command)
+  
   def interp_command(command):
 
     if '/ping' in command:
@@ -64,12 +60,11 @@ class CommandInterpreterLogic():
     if match_regist:
       return 'regist', match_regist.groups()
 
-    match_dn = re.match('^/(d\d+ .*)', command)
-    if match_dn:
-      return 'dn', match_dn.groups()
-    
-    match_ndn = re.match('^/(\d+d\d+.*)', command)
-    if match_ndn:
-      return 'ndn', match_ndn.groups()
+    match_dice = re.match('^(/d\d+ .*|/\d+d\d+.*)', command)
+    if match_dice:
+      if '=' in match_dice.group(0):
+        return 'choice', match_dice.groups()
+      else:
+        return 'calc', match_dice.groups()
     
     return '', None
