@@ -37,17 +37,44 @@ class DefaultMode:
     def status(self, message):
         return 'モード未指定のためこの機能は使用できません'
 
-    def dice(self, session, user, command):
-        dices = []
-        terms = command.split('+')
-        for e in terms:
-            is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(e)
-            if is_ndn:
-                dices.append(DiceLogic.roll(amount, size))
-                continue
-            is_const, (const,) = CommandInterpreterLogic.match_const(e)
-            if const:
-                dices.append([const])
+    def dice(self, session, author, tokens):
 
-        sum_dices = sum(list(itertools.chain.from_iterable(dices)))
-        return f"{sum_dices}    {str(dices)[1:-1]}", sum_dices
+        def roll(token):
+            is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(token)
+            if is_ndn:
+                return DiceLogic.roll(amount, size)
+            
+            is_d66, _ = CommandInterpreterLogic.match_d66(token)
+            if is_d66:
+                return [DiceLogic.roll_d66()]
+            
+            is_const, (const,) = CommandInterpreterLogic.match_const(token)
+            if is_const:
+                return [const]
+
+            return token
+        
+        result_values = [roll(token) for token in tokens]
+
+        left_vals, left_sum = '', 0
+        op = ''
+        right_vals, right_sum = '', 0
+
+        for val in result_values:
+            if val == '+':
+                continue
+            if val in ['<', '>']:
+                op = val
+                continue
+
+            if op == '':
+                left_vals += f"{str(val)}"
+                left_sum  += sum(val)
+            else:
+                right_vals += f"{str(val)}"
+                right_sum  += sum(val)
+
+        if op:
+            return f"{left_sum}  {left_vals}"
+        else:
+            return f"{left_sum}  {left_vals} {op} {right_sum}  {right_vals}"
