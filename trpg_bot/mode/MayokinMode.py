@@ -22,7 +22,7 @@ class MayokinMode(DefaultMode):
         return player.print()
 
     def dice(self, message):
-        is_d66, (_, name) = CommandInterpreterLogic.match_d66(message.content)
+        is_d66, (_, name) = CommandInterpreterLogic.match_d66_txt(message.content)
         if is_d66:
             path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
             value = DiceLogic.roll_d66()
