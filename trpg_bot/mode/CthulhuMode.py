@@ -2,7 +2,7 @@
 #-*- coding:utf-8 -*-
 
 from mode import DefaultMode
-from player.CthulhuPlayer import CthulhuPlayer
+from player import CthulhuPlayer
 
 class CthulhuMode(DefaultMode):
 
