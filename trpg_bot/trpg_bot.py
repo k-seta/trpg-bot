@@ -35,7 +35,7 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
-            command, params = CommandInterpreterLogic.interp_command(message.content)
+            command, params = CommandInterpreterLogic().interp_command(message.content)
             
             if command == 'ping':
                 await message.channel.send('pong')

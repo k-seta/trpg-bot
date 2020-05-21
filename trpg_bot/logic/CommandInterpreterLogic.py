@@ -43,7 +43,7 @@ class CommandInterpreterLogic():
   def tokenize_dices(command):
     return re.findall('(/|[\+<>]|\d+d\d+|\d+|d\d+|[^\s\+<>\d]+)', command)[1:]
 
-  def interp_command(command):
+  def interp_command(self, command):
 
     if '/ping' in command:
       return 'ping', ()
