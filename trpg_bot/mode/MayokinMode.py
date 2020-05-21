@@ -3,7 +3,7 @@
 
 import re
 
-from mode.DefaultMode import DefaultMode
+from mode import DefaultMode
 from logic import DiceLogic, DiceListLogic, CommandInterpreterLogic
 from player.MayokinPlayer import MayokinPlayer
 

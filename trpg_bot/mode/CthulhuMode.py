@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from mode.DefaultMode import DefaultMode
+from mode import DefaultMode
 from player.CthulhuPlayer import CthulhuPlayer
 
 class CthulhuMode(DefaultMode):

@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from mode.DefaultMode import DefaultMode
-from mode.CthulhuMode import CthulhuMode
-from mode.MayokinMode import MayokinMode
+from mode import DefaultMode, CthulhuMode, MayokinMode
 
 class ModeSelectorLogic:
 
