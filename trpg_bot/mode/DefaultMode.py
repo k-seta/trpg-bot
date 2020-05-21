@@ -37,9 +37,9 @@ class DefaultMode:
     def status(self, message):
         return 'モード未指定のためこの機能は使用できません'
 
-    def dice(self, session, author, tokens):
+    def dice(self, session, user, tokens):
 
-        def roll(token):
+        def proc(token):
             is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(token)
             if is_ndn:
                 return DiceLogic.roll(amount, size)
@@ -54,7 +54,7 @@ class DefaultMode:
 
             return token
         
-        result_values = [roll(token) for token in tokens]
+        result_values = [proc(token) for token in tokens]
 
         left_vals, left_sum = '', 0
         op = ''
