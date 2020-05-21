@@ -26,20 +26,6 @@ class CommandInterpreterLogic():
     else:
       return False, (None, None)
   
-  def match_ndn_txt(command):
-    res = re.search('(\d+d\d+) (.+)', command)
-    if res:
-      return True, res.groups()
-    else:
-      return False, (None, None)
-
-  def match_d66_txt(command):
-    res = re.search('/(d66) (.*)', command)
-    if res:
-      return True, res.groups()
-    else:
-      return False, (None, None)
-  
   def tokenize_dices(self, command):
     return re.findall('(/|[\+<>]|\d+d\d+|\d+|d\d+|[^\s\+<>\d]+\d?)', command)[1:]
 

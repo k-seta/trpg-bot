@@ -92,14 +92,3 @@ class MayokinMode(DefaultMode):
             return f"{left_sum}  {left_vals} {op} {right_sum}  {right_vals}"
         else:
             return f"{left_sum}  {left_vals}"
-    """
-    def dice(self, session, user, command):
-        res_default, sum_dices = super().dice(session, user, command)
-        is_ndn_txt, (_, name) = CommandInterpreterLogic.match_ndn_txt(command)
-        if is_ndn_txt:
-            path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
-            list_item = DiceListLogic.disp(path, sum_dices)
-            res_str = f"{res_default}\n{list_item}"
-            return res_str, sum_dices
-        return res_default, sum_dices
-    """
