@@ -67,6 +67,9 @@ class DefaultMode:
                 op = val
                 continue
 
+            if type(val) is str:
+                raise Exception(f"Defaultモードでは扱えないトークンです: {val}")
+
             if op == '':
                 left_vals += f"{str(val)}"
                 left_sum  += sum(val)
@@ -75,6 +78,6 @@ class DefaultMode:
                 right_sum  += sum(val)
 
         if op:
-            return f"{left_sum}  {left_vals}"
-        else:
             return f"{left_sum}  {left_vals} {op} {right_sum}  {right_vals}"
+        else:
+            return f"{left_sum}  {left_vals}"

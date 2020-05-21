@@ -40,7 +40,7 @@ class CommandInterpreterLogic():
     else:
       return False, (None, None)
   
-  def tokenize_dices(command):
+  def tokenize_dices(self, command):
     return re.findall('(/|[\+<>]|\d+d\d+|\d+|d\d+|[^\s\+<>\d]+)', command)[1:]
 
   def interp_command(self, command):

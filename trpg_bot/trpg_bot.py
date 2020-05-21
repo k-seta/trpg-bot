@@ -74,7 +74,7 @@ if __name__ == '__main__':
             if command == 'dice':
                 session = message.channel.name
                 user  = message.author.name
-                result = mode_selector.get(message).dice(session, author, params)
+                result = mode_selector.get(message).dice(session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
