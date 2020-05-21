@@ -16,15 +16,13 @@ class CthulhuMode(DefaultMode):
         player = CthulhuPlayer(user, url)
         return player.print()
 
-    def dice(self, message):
-        result, sum_dices = super().dice(message)
-        if '<' in message.content:
-            session = message.channel.name
-            user = message.author.name
+    def dice(self, session, user, command):
+        result, sum_dices = super().dice(session, author, command)
+        if '<' in command:
             url = self.redis.hget(session, user)
             player = CthulhuPlayer(user, url)
 
-            param_key = message.content.split('<')[1].strip()
+            param_key = command.split('<')[1].strip()
             param_value = player.get(param_key)
             result += f" < {param_key}({param_value})"
         return result, sum_dices

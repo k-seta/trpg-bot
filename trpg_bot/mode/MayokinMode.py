@@ -21,16 +21,16 @@ class MayokinMode(DefaultMode):
         player = MayokinPlayer(user, url)
         return player.print()
 
-    def dice(self, message):
-        is_d66, (_, name) = CommandInterpreterLogic.match_d66_txt(message.content)
+    def dice(self, session, user, command):
+        is_d66, (_, name) = CommandInterpreterLogic.match_d66_txt(command)
         if is_d66:
             path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
             value = DiceLogic.roll_d66()
             res_str = DiceListLogic.disp(path, value) if len(name) != 0 else value
             return res_str, value
 
-        res_default, sum_dices = super().dice(message)
-        is_ndn_txt, (_, name) = CommandInterpreterLogic.match_ndn_txt(message.content)
+        res_default, sum_dices = super().dice(session, user, command)
+        is_ndn_txt, (_, name) = CommandInterpreterLogic.match_ndn_txt(command)
         if is_ndn_txt:
             path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
             list_item = DiceListLogic.disp(path, sum_dices)

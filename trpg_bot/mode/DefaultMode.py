@@ -37,9 +37,9 @@ class DefaultMode:
     def status(self, message):
         return 'モード未指定のためこの機能は使用できません'
 
-    def dice(self, message):
+    def dice(self, session, user, command):
         dices = []
-        terms = message.content.split('+')
+        terms = command.split('+')
         for e in terms:
             is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(e)
             if is_ndn:

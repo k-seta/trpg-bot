@@ -72,7 +72,10 @@ if __name__ == '__main__':
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':
-                result, _ = mode_selector.get(message).dice(message)
+                session = message.channel.name
+                user  = message.author.name
+                command = message.content
+                result, _ = mode_selector.get(message).dice(session, author, command)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
