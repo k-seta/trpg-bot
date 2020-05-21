@@ -39,6 +39,9 @@ class CommandInterpreterLogic():
       return True, res.groups()
     else:
       return False, (None, None)
+  
+  def tokenize_dices(command):
+    return re.findall('(/|[\+<>]|\d+d\d+|\d+|d\d+|[^\s\+<>\d]+)', command)[1:]
 
   def interp_command(command):
 
@@ -71,12 +74,8 @@ class CommandInterpreterLogic():
     if match_regist:
       return 'regist', match_regist.groups()
 
-    match_dn = re.match('^/(d\d+ .*)', command)
-    if match_dn:
-      return 'dn', match_dn.groups()
-    
-    match_ndn = re.match('^/(\d+d\d+.*)', command)
-    if match_ndn:
-      return 'ndn', match_ndn.groups()
+    match_dice = re.match('^(/d\d+ .*|/\d+d\d+.*)', command)
+    if match_dice:
+      return 'dice', self.tokenize_dices(command)
     
     return '', None

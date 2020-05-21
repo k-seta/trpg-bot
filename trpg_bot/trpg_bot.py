@@ -71,7 +71,7 @@ if __name__ == '__main__':
                 table = mode_selector.get(message).players(message)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
-            if command in ['ndn', 'dn']:
+            if command == 'dice':
                 result, _ = mode_selector.get(message).dice(message)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
