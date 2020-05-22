@@ -8,7 +8,7 @@ import redis
 from prettytable import PrettyTable
 
 from logic import DiceLogic, CommandInterpreterLogic
-from .args import DiceArgs
+from .args import DiceArgs, FunctionalDiceArgs
 
 class DefaultMode:
 
@@ -40,7 +40,7 @@ class DefaultMode:
     def dice(self, session, user, tokens):
 
         def proc(token):
-            if type(token) == DiceArgs:
+            if type(token) == DiceArgs or type(token) == FunctionalDiceArgs:
                 return token
             is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(token)
             if is_ndn:
@@ -56,12 +56,19 @@ class DefaultMode:
             return token
 
         result_dices = [proc(token) for token in tokens]
-        result_values = []
+        result_func = []
         for i, x in enumerate(result_dices):
-            if x == '+' and i > 0:
-                result_values.append(result_values.pop(-1) + result_dices[i+1])
+            if type(x) == FunctionalDiceArgs and i > 0:
+                result_func.append(x.to_dice_args(result_dices[i+x.var_relative_index]))
                 continue
-            elif result_dices[i-1] == '+' and i > 0:
+            result_func.append(x)
+
+        result_values = []
+        for i, x in enumerate(result_func):
+            if x == '+' and i > 0:
+                result_values.append(result_values.pop(-1) + result_func[i+1])
+                continue
+            elif result_func[i-1] == '+' and i > 0:
                 continue
             result_values.append(x)
         return ' '.join([str(value) for value in result_values])
