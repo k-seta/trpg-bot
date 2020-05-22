@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
+import itertools
 class DiceArgs:
     def __init__(self, value, items):
         if type(value) == int:
@@ -27,4 +28,9 @@ class DiceArgs:
         return self
 
     def __str__(self):
-        return f"{self.value}  {str(self.items)[1:-1]}"
+        if len(list(itertools.chain.from_iterable(self.items))) == 1:
+            return f"{self.items[0][0]}"
+        details = []
+        for d in self.items:
+            details.append(f"[{','.join([str(x) for x in d])}]")
+        return f"{self.value}  {', '.join(details)}"

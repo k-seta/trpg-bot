@@ -28,7 +28,7 @@ class MayokinMode(DefaultMode):
         def proc(token):
             val = player.get(token)
             if val != '':
-                return DiceArgs(int(val), [f"{token} {val}"])            
+                return DiceArgs(int(val), [f"{token}({val})"])            
             if '表' in token:
                 dice_dict = DiceListLogic.get_dict(f"./trpg_bot/resources/mayokin/{token.strip()}.txt")
                 return FunctionalDiceArgs(lambda var: f"\n{dice_dict[str(var)]}", -1)

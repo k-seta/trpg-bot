@@ -26,7 +26,7 @@ class CthulhuMode(DefaultMode):
         def proc(token):
             val = player.get(token)
             if val != '':
-                return DiceArgs(int(val), [f"{token} {val}"])
+                return DiceArgs(int(val), [f"{token}({val})"])
             return token
         
         result_props = [proc(token) for token in tokens]
