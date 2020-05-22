@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from mode.DefaultMode import DefaultMode
-from player.CthulhuPlayer import CthulhuPlayer
-from logic.CommandInterpreterLogic import CommandInterpreterLogic
-from logic.DiceLogic import DiceLogic
+from mode import DefaultMode
+from player import CthulhuPlayer
+from logic import DiceLogic, CommandInterpreterLogic
 
 class CthulhuMode(DefaultMode):
 

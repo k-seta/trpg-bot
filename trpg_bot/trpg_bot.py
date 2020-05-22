@@ -7,9 +7,7 @@ import traceback
 import discord
 import redis
 
-from logic.ModeSelectorLogic import ModeSelectorLogic
-from logic.DropboxLogic import DropboxLogic
-from logic.CommandInterpreterLogic import CommandInterpreterLogic
+from logic import CommandInterpreterLogic, DropboxLogic, ModeSelectorLogic
 
 if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']

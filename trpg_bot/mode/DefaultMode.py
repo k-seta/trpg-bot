@@ -7,8 +7,7 @@ import itertools
 import redis
 from prettytable import PrettyTable
 
-from logic.DiceLogic import DiceLogic
-from logic.CommandInterpreterLogic import CommandInterpreterLogic
+from logic import DiceLogic, CommandInterpreterLogic
 
 class DefaultMode:
 
