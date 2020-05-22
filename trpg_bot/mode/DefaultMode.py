@@ -49,7 +49,7 @@ class DefaultMode:
             is_d66, _ = CommandInterpreterLogic.match_d66(token)
             if is_d66:
                 res = DiceLogic.roll_d66()
-                return DiceArgs(sum(res), res)
+                return DiceArgs(res, res)
             is_const, (const,) = CommandInterpreterLogic.match_const(token)
             if is_const:
                 return DiceArgs(const, const)
