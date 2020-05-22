@@ -5,7 +5,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from prettytable import PrettyTable
-from player.AbstractPlayer import AbstractPlayer
+from player import AbstractPlayer
 
 class CthulhuPlayer(AbstractPlayer):
 

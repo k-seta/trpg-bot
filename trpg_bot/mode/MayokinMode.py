@@ -3,11 +3,9 @@
 
 import re
 
-from mode.DefaultMode import DefaultMode
-from logic.DiceListLogic import DiceListLogic
-from logic.DiceLogic import DiceLogic
-from logic.CommandInterpreterLogic import CommandInterpreterLogic
-from player.MayokinPlayer import MayokinPlayer
+from mode import DefaultMode
+from logic import DiceLogic, DiceListLogic, CommandInterpreterLogic
+from player import MayokinPlayer
 
 class MayokinMode(DefaultMode):
 
