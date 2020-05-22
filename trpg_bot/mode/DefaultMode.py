@@ -40,6 +40,8 @@ class DefaultMode:
     def dice(self, session, user, tokens):
 
         def proc(token):
+            if type(token) == DiceArgs:
+                return token
             is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(token)
             if is_ndn:
                 res = DiceLogic.roll(amount, size)
