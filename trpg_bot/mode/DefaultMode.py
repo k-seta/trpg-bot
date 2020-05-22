@@ -8,6 +8,7 @@ import redis
 from prettytable import PrettyTable
 
 from logic import DiceLogic, CommandInterpreterLogic
+from .args import DiceArgs
 
 class DefaultMode:
 
@@ -41,42 +42,24 @@ class DefaultMode:
         def proc(token):
             is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(token)
             if is_ndn:
-                return DiceLogic.roll(amount, size)
-            
+                res = DiceLogic.roll(amount, size)
+                return DiceArgs(sum(res), res)
             is_d66, _ = CommandInterpreterLogic.match_d66(token)
             if is_d66:
-                return [DiceLogic.roll_d66()]
-            
+                res = DiceLogic.roll_d66()
+                return DiceArgs(sum(res), res)
             is_const, (const,) = CommandInterpreterLogic.match_const(token)
             if is_const:
-                return [const]
-
+                return DiceArgs(const, const)
             return token
-        
-        result_values = [proc(token) for token in tokens]
 
-        left_vals, left_sum = '', 0
-        op = ''
-        right_vals, right_sum = '', 0
-
-        for val in result_values:
-            if val == '+':
+        result_dices = [proc(token) for token in tokens]
+        result_values = []
+        for i, x in enumerate(result_dices):
+            if x == '+' and i > 0:
+                result_values.append(result_values.pop(-1) + result_dices[i+1])
                 continue
-            if val in ['<', '>']:
-                op = val
+            elif result_dices[i-1] == '+' and i > 0:
                 continue
-
-            if type(val) is str:
-                raise Exception(f"Defaultモードでは扱えないトークンです: {val}")
-
-            if op == '':
-                left_vals += f"{str(val)}"
-                left_sum  += sum(val)
-            else:
-                right_vals += f"{str(val)}"
-                right_sum  += sum(val)
-
-        if op:
-            return f"{left_sum}  {left_vals} {op} {right_sum}  {right_vals}"
-        else:
-            return f"{left_sum}  {left_vals}"
+            result_values.append(x)
+        return ' '.join([str(value) for value in result_values])
