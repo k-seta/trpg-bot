@@ -20,13 +20,10 @@ class DefaultMode:
     def help(self):
         return self.message_help
 
-    def regist(self, message, url):
-        session = message.channel.name
-        user = message.author.name
+    def regist(self, session, user, url):
         self.redis.hset(session, user, url)
 
-    def players(self, message):
-        session = message.channel.name
+    def players(self, session):
         data = self.redis.hgetall(session)
         table = PrettyTable()
         table.field_names = ['user', 'url']
@@ -34,7 +31,7 @@ class DefaultMode:
             table.add_row([user, url])
         return table.get_string()
 
-    def status(self, message):
+    def status(self, session, user):
         return 'モード未指定のためこの機能は使用できません'
 
     def dice(self, session, user, tokens):

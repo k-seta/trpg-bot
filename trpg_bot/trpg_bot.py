@@ -33,6 +33,8 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
+            session = message.channel.name
+            user  = message.author.name
             command, params = CommandInterpreterLogic().interp_command(message.content)
             
             if command == 'ping':
@@ -53,30 +55,28 @@ if __name__ == '__main__':
 
             if command == 'mode':
                 mode_name = params[0]
-                mode = mode_selector.select(message, mode_name)
+                mode = mode_selector.select(session, mode_name)
                 await message.channel.send(f"{mode} モードになったよ")
 
             if command == 'help':
-                help = mode_selector.get(message).help()
+                help = mode_selector.get(session).help()
                 await message.channel.send(help)
 
             if command == 'regist':
                 url = params[0]
-                mode_selector.get(message).regist(message, url)
+                mode_selector.get(session).regist(session, user, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if command == 'players':
-                table = mode_selector.get(message).players(message)
+                table = mode_selector.get(session).players(session)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':
-                session = message.channel.name
-                user  = message.author.name
-                result = mode_selector.get(message).dice(session, user, params)
+                result = mode_selector.get(session).dice(session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
-                status = mode_selector.get(message).status(message)
+                status = mode_selector.get(session).status(session, user)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
         except Exception as e:
