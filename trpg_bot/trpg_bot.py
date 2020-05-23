@@ -58,26 +58,30 @@ if __name__ == '__main__':
                 await message.channel.send(f"{mode} モードになったよ")
 
             if command == 'help':
-                help = mode_selector.get(message).help()
+                session = message.channel.name
+                help = mode_selector.get(session).help()
                 await message.channel.send(help)
 
             if command == 'regist':
                 url = params[0]
-                mode_selector.get(message).regist(message, url)
+                session = message.channel.name
+                mode_selector.get(session).regist(message, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if command == 'players':
-                table = mode_selector.get(message).players(message)
+                session = message.channel.name
+                table = mode_selector.get(session).players(message)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':
                 session = message.channel.name
                 user  = message.author.name
-                result = mode_selector.get(message).dice(session, user, params)
+                result = mode_selector.get(session).dice(session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
-                status = mode_selector.get(message).status(message)
+                session = message.channel.name
+                status = mode_selector.get(session).status(message)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
         except Exception as e:
