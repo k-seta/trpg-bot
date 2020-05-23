@@ -8,6 +8,7 @@ import redis
 from prettytable import PrettyTable
 
 from logic import DiceLogic, CommandInterpreterLogic
+from .args import DiceArgs, FunctionalDiceArgs
 
 class DefaultMode:
 
@@ -39,44 +40,32 @@ class DefaultMode:
     def dice(self, session, user, tokens):
 
         def proc(token):
+            if type(token) == DiceArgs or type(token) == FunctionalDiceArgs:
+                return token
             is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(token)
             if is_ndn:
-                return DiceLogic.roll(amount, size)
-            
+                res = DiceLogic.roll(amount, size)
+                return DiceArgs(sum(res), res)
             is_d66, _ = CommandInterpreterLogic.match_d66(token)
             if is_d66:
-                return [DiceLogic.roll_d66()]
-            
+                res = DiceLogic.roll_d66()
+                return DiceArgs(res, res)
             is_const, (const,) = CommandInterpreterLogic.match_const(token)
             if is_const:
-                return [const]
-
+                return DiceArgs(const, const)
             return token
-        
-        result_values = [proc(token) for token in tokens]
 
-        left_vals, left_sum = '', 0
-        op = ''
-        right_vals, right_sum = '', 0
-
-        for val in result_values:
-            if val == '+':
-                continue
-            if val in ['<', '>']:
-                op = val
-                continue
-
-            if type(val) is str:
-                raise Exception(f"Defaultモードでは扱えないトークンです: {val}")
-
-            if op == '':
-                left_vals += f"{str(val)}"
-                left_sum  += sum(val)
+        result_dices = [proc(token) for token in tokens]
+        result_values = []
+        while len(result_dices) > 0:
+            head = result_dices.pop(0)
+            if type(head) == FunctionalDiceArgs:
+                value = result_values[-1]
+                result_values.append(head.to_dice_args(value))
+            elif head == '+':
+                left = result_values.pop(-1)
+                right = result_dices.pop(0)
+                result_values.append(left + right)
             else:
-                right_vals += f"{str(val)}"
-                right_sum  += sum(val)
-
-        if op:
-            return f"{left_sum}  {left_vals} {op} {right_sum}  {right_vals}"
-        else:
-            return f"{left_sum}  {left_vals}"
+                result_values.append(head)
+        return ' '.join([str(value) for value in result_values])

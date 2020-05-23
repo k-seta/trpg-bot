@@ -46,6 +46,7 @@ class MayokinPlayer(AbstractPlayer):
   def get(self, param):
     if param in self.status.keys():
       return self.status[param]
+    return ''
 
   def print(self):
     profile = ''
