@@ -13,9 +13,7 @@ class MayokinMode(DefaultMode):
     def __init__(self, redis, path_of_help_md):
         super().__init__(redis, path_of_help_md)
 
-    def status(self, message):
-        session = message.channel.name
-        user = message.author.name
+    def status(self, session, user):
         url = self.redis.hget(session, user)
         player = MayokinPlayer(user, url)
         return player.print()

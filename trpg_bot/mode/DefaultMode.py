@@ -31,7 +31,7 @@ class DefaultMode:
             table.add_row([user, url])
         return table.get_string()
 
-    def status(self, message):
+    def status(self, session, user):
         return 'モード未指定のためこの機能は使用できません'
 
     def dice(self, session, user, tokens):
