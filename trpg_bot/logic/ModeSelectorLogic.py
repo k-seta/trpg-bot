@@ -20,8 +20,7 @@ class ModeSelectorLogic:
             key = 'default'
         return self.modes[key]
 
-    def select(self, message, key):
-        session = message.channel.name
+    def select(self, session, key):
         mode = 'default'
         if key in ['cthulhu', 'クトゥルフ']:
             mode = 'cthulhu'

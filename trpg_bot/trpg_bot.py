@@ -53,7 +53,8 @@ if __name__ == '__main__':
 
             if command == 'mode':
                 mode_name = params[0]
-                mode = mode_selector.select(message, mode_name)
+                session = message.channel.name
+                mode = mode_selector.select(session, mode_name)
                 await message.channel.send(f"{mode} モードになったよ")
 
             if command == 'help':
