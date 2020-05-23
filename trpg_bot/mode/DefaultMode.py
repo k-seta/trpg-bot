@@ -56,19 +56,16 @@ class DefaultMode:
             return token
 
         result_dices = [proc(token) for token in tokens]
-        result_func = []
-        for i, x in enumerate(result_dices):
-            if type(x) == FunctionalDiceArgs and i > 0:
-                result_func.append(x.to_dice_args(result_dices[i+x.var_relative_index]))
-                continue
-            result_func.append(x)
-
         result_values = []
-        for i, x in enumerate(result_func):
-            if x == '+' and i > 0:
-                result_values.append(result_values.pop(-1) + result_func[i+1])
-                continue
-            elif result_func[i-1] == '+' and i > 0:
-                continue
-            result_values.append(x)
+        while len(result_dices) > 0:
+            head = result_dices.pop(0)
+            if type(head) == FunctionalDiceArgs:
+                value = result_values[-1]
+                result_values.append(head.to_dice_args(value))
+            elif head == '+':
+                left = result_values.pop(-1)
+                right = result_dices.pop(0)
+                result_values.append(left + right)
+            else:
+                result_values.append(head)
         return ' '.join([str(value) for value in result_values])

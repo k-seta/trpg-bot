@@ -31,7 +31,7 @@ class MayokinMode(DefaultMode):
                 return DiceArgs(int(val), [f"{token}({val})"])            
             if '表' in token:
                 dice_dict = DiceListLogic.get_dict(f"./trpg_bot/resources/mayokin/{token.strip()}.txt")
-                return FunctionalDiceArgs(lambda var: f"\n{dice_dict[str(var)]}", -1)
+                return FunctionalDiceArgs(lambda var: f"\n{dice_dict[str(var)]}")
             return token
         
         result_props = [proc(token) for token in tokens]
