@@ -23,8 +23,7 @@ class DefaultMode:
     def regist(self, session, user, url):
         self.redis.hset(session, user, url)
 
-    def players(self, message):
-        session = message.channel.name
+    def players(self, session):
         data = self.redis.hgetall(session)
         table = PrettyTable()
         table.field_names = ['user', 'url']
