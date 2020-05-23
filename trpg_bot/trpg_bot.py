@@ -86,6 +86,7 @@ if __name__ == '__main__':
     @client.event
     async def on_guild_channel_delete(channel):
         try:
+            r.hdel('mode', channel.name)
             r.delete(channel.name)
             global_channel = client.get_channel(GLOBAL_CHANNEL_ID)
             await global_channel.send(f"{message.channel.mention}のプレイヤーデータを削除したよ")
