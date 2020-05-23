@@ -20,9 +20,7 @@ class DefaultMode:
     def help(self):
         return self.message_help
 
-    def regist(self, message, url):
-        session = message.channel.name
-        user = message.author.name
+    def regist(self, session, user, url):
         self.redis.hset(session, user, url)
 
     def players(self, message):

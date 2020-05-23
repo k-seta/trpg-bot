@@ -34,6 +34,7 @@ if __name__ == '__main__':
                 return
 
             session = message.channel.name
+            user  = message.author.name
             command, params = CommandInterpreterLogic().interp_command(message.content)
             
             if command == 'ping':
@@ -63,7 +64,7 @@ if __name__ == '__main__':
 
             if command == 'regist':
                 url = params[0]
-                mode_selector.get(session).regist(message, url)
+                mode_selector.get(session).regist(session, user, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if command == 'players':
@@ -71,7 +72,6 @@ if __name__ == '__main__':
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':
-                user  = message.author.name
                 result = mode_selector.get(session).dice(session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
