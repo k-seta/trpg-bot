@@ -8,6 +8,7 @@ import redis
 from prettytable import PrettyTable
 
 from logic import DiceLogic, CommandInterpreterLogic
+from .args import DiceArgs, FunctionalDiceArgs
 
 class DefaultMode:
 
@@ -36,17 +37,35 @@ class DefaultMode:
     def status(self, message):
         return 'モード未指定のためこの機能は使用できません'
 
-    def dice(self, message):
-        dices = []
-        terms = message.content.split('+')
-        for e in terms:
-            is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(e)
-            if is_ndn:
-                dices.append(DiceLogic.roll(amount, size))
-                continue
-            is_const, (const,) = CommandInterpreterLogic.match_const(e)
-            if const:
-                dices.append([const])
+    def dice(self, session, user, tokens):
 
-        sum_dices = sum(list(itertools.chain.from_iterable(dices)))
-        return f"{sum_dices}    {str(dices)[1:-1]}", sum_dices
+        def proc(token):
+            if type(token) == DiceArgs or type(token) == FunctionalDiceArgs:
+                return token
+            is_ndn, (amount, size) = CommandInterpreterLogic.match_ndn(token)
+            if is_ndn:
+                res = DiceLogic.roll(amount, size)
+                return DiceArgs(sum(res), res)
+            is_d66, _ = CommandInterpreterLogic.match_d66(token)
+            if is_d66:
+                res = DiceLogic.roll_d66()
+                return DiceArgs(res, res)
+            is_const, (const,) = CommandInterpreterLogic.match_const(token)
+            if is_const:
+                return DiceArgs(const, const)
+            return token
+
+        result_dices = [proc(token) for token in tokens]
+        result_values = []
+        while len(result_dices) > 0:
+            head = result_dices.pop(0)
+            if type(head) == FunctionalDiceArgs:
+                value = result_values[-1]
+                result_values.append(head.to_dice_args(value))
+            elif head == '+':
+                left = result_values.pop(-1)
+                right = result_dices.pop(0)
+                result_values.append(left + right)
+            else:
+                result_values.append(head)
+        return ' '.join([str(value) for value in result_values])

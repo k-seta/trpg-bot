@@ -3,6 +3,8 @@
 
 from mode import DefaultMode
 from player import CthulhuPlayer
+from logic import DiceLogic, CommandInterpreterLogic
+from .args import DiceArgs
 
 class CthulhuMode(DefaultMode):
 
@@ -16,15 +18,16 @@ class CthulhuMode(DefaultMode):
         player = CthulhuPlayer(user, url)
         return player.print()
 
-    def dice(self, message):
-        result, sum_dices = super().dice(message)
-        if '<' in message.content:
-            session = message.channel.name
-            user = message.author.name
-            url = self.redis.hget(session, user)
-            player = CthulhuPlayer(user, url)
+    def dice(self, session, user, tokens):
 
-            param_key = message.content.split('<')[1].strip()
-            param_value = player.get(param_key)
-            result += f" < {param_key}({param_value})"
-        return result, sum_dices
+        url = self.redis.hget(session, user)
+        player = CthulhuPlayer(user, url)
+
+        def proc(token):
+            val = player.get(token)
+            if val != '':
+                return DiceArgs(int(val), [f"{token}({val})"])
+            return token
+        
+        result_props = [proc(token) for token in tokens]
+        return super().dice(session, user, result_props)

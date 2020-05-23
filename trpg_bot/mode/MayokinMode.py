@@ -6,6 +6,7 @@ import re
 from mode import DefaultMode
 from logic import DiceLogic, DiceListLogic, CommandInterpreterLogic
 from player import MayokinPlayer
+from .args import DiceArgs, FunctionalDiceArgs
 
 class MayokinMode(DefaultMode):
 
@@ -19,19 +20,19 @@ class MayokinMode(DefaultMode):
         player = MayokinPlayer(user, url)
         return player.print()
 
-    def dice(self, message):
-        is_d66, (_, name) = CommandInterpreterLogic.match_d66(message.content)
-        if is_d66:
-            path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
-            value = DiceLogic.roll_d66()
-            res_str = DiceListLogic.disp(path, value) if len(name) != 0 else value
-            return res_str, value
+    def dice(self, session, user, tokens):
 
-        res_default, sum_dices = super().dice(message)
-        is_ndn_txt, (_, name) = CommandInterpreterLogic.match_ndn_txt(message.content)
-        if is_ndn_txt:
-            path = f"./trpg_bot/resources/mayokin/{name.strip()}.txt"
-            list_item = DiceListLogic.disp(path, sum_dices)
-            res_str = f"{res_default}\n{list_item}"
-            return res_str, sum_dices
-        return res_default, sum_dices
+        url = self.redis.hget(session, user)
+        player = MayokinPlayer(user, url)
+
+        def proc(token):
+            val = player.get(token)
+            if val != '':
+                return DiceArgs(int(val), [f"{token}({val})"])            
+            if '表' in token:
+                dice_dict = DiceListLogic.get_dict(f"./trpg_bot/resources/mayokin/{token.strip()}.txt")
+                return FunctionalDiceArgs(lambda var: f"\n{dice_dict[str(var)]}")
+            return token
+        
+        result_props = [proc(token) for token in tokens]
+        return super().dice(session, user, result_props)

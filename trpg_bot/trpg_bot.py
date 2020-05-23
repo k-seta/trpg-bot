@@ -33,7 +33,7 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
-            command, params = CommandInterpreterLogic.interp_command(message.content)
+            command, params = CommandInterpreterLogic().interp_command(message.content)
             
             if command == 'ping':
                 await message.channel.send('pong')
@@ -69,8 +69,10 @@ if __name__ == '__main__':
                 table = mode_selector.get(message).players(message)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
-            if command in ['ndn', 'dn']:
-                result, _ = mode_selector.get(message).dice(message)
+            if command == 'dice':
+                session = message.channel.name
+                user  = message.author.name
+                result = mode_selector.get(message).dice(session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
