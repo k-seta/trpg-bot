@@ -33,6 +33,7 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
+            session = message.channel.name
             command, params = CommandInterpreterLogic().interp_command(message.content)
             
             if command == 'ping':
@@ -53,34 +54,28 @@ if __name__ == '__main__':
 
             if command == 'mode':
                 mode_name = params[0]
-                session = message.channel.name
                 mode = mode_selector.select(session, mode_name)
                 await message.channel.send(f"{mode} モードになったよ")
 
             if command == 'help':
-                session = message.channel.name
                 help = mode_selector.get(session).help()
                 await message.channel.send(help)
 
             if command == 'regist':
                 url = params[0]
-                session = message.channel.name
                 mode_selector.get(session).regist(message, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if command == 'players':
-                session = message.channel.name
                 table = mode_selector.get(session).players(message)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':
-                session = message.channel.name
                 user  = message.author.name
                 result = mode_selector.get(session).dice(session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
-                session = message.channel.name
                 status = mode_selector.get(session).status(message)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
