@@ -31,25 +31,25 @@ class CommandInterpreterLogic():
 
   def interp_command(self, command):
 
-    if '/ping' in command:
+    if command.startswith('/ping'):
       return 'ping', ()
 
-    if '/debug' in command:
+    if command.startswith('/debug'):
       return 'debug', ()
     
-    if '/redis' in command:
+    if command.startswith('/redis'):
       return 'redis', ()
 
-    if '/sync' in command:
+    if command.startswith('/sync'):
       return 'sync', ()
 
-    if '/help' in command:
+    if command.startswith('/help'):
       return 'help', ()
 
-    if '/status' in command:
+    if command.startswith('/status'):
       return 'status', ()
 
-    if '/players' in command:
+    if command.startswith('/players'):
       return 'players', ()
 
     match_mode = re.match('^/mode (.*)', command)
