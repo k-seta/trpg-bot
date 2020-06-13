@@ -22,6 +22,8 @@ class MayokinPlayer(AbstractPlayer):
     self.url = url
 
     if url is None:
+      self.profile = {}
+      self.status = {}
       return
 
     res = requests.get(self.url)

@@ -26,6 +26,12 @@ class CthulhuPlayer(AbstractPlayer):
         self.url = url
 
         if url is None:
+            self.status = {}
+            self.battle_arts = {}
+            self.find_arts = {}
+            self.act_arts = {}
+            self.commu_arts = {}
+            self.know_arts = {}
             return
 
         res = requests.get(self.url)
