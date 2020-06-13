@@ -60,7 +60,7 @@ class CommandInterpreterLogic():
     if match_regist:
       return 'regist', match_regist.groups()
 
-    match_dice = re.match('^(/d\d+ .*|/\d+d\d+.*)', command)
+    match_dice = re.match('^(/d\d+.*|/\d+d\d+.*)', command)
     if match_dice:
       return 'dice', self.tokenize_dices(command)
     
