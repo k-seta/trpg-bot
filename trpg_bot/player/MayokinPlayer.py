@@ -17,9 +17,12 @@ class MayokinPlayer(AbstractPlayer):
   profile = {} #class, job
   status = {} 
 
-  def __init__(self, user, url):
+  def __init__(self, user, url = None):
     self.user = user
     self.url = url
+
+    if url is None:
+      return
 
     res = requests.get(self.url)
     soup = BeautifulSoup(res.text, 'html.parser')
