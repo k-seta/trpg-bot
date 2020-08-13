@@ -64,4 +64,4 @@ class CommandInterpreterLogic():
     if match_dice:
       return 'dice', self.tokenize_dices(command)
     
-    return '', None
+    return 'extra', (command)
