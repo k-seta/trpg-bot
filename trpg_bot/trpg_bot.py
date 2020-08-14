@@ -81,7 +81,6 @@ if __name__ == '__main__':
 
             if command == 'extra':
                 result = mode_selector.get(session).extra(params)
-                print(result)
                 if result != None:
                     await message.channel.send(result)
 
