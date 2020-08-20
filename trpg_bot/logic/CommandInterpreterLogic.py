@@ -64,4 +64,7 @@ class CommandInterpreterLogic():
     if match_dice:
       return 'dice', self.tokenize_dices(command)
     
+    if command.startswith('/'):
+      return 'extra', (command)
+
     return '', None

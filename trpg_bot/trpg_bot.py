@@ -79,6 +79,11 @@ if __name__ == '__main__':
                 status = mode_selector.get(session).status(session, user)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
+            if command == 'extra':
+                result = mode_selector.get(session).extra(params)
+                if result != None:
+                    await message.channel.send(result)
+
         except Exception as e:
             await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
             traceback.print_exc()

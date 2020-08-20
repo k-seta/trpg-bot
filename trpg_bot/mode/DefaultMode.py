@@ -66,3 +66,6 @@ class DefaultMode:
             else:
                 result_values.append(head)
         return ' '.join([str(value) for value in result_values])
+
+    def extra(self, params):
+        return None
