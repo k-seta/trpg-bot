@@ -63,6 +63,10 @@ class DefaultMode:
                 left = result_values.pop(-1)
                 right = result_dices.pop(0)
                 result_values.append(left + right)
+            elif head == '-':
+                left = result_values.pop(-1)
+                right = result_dices.pop(0)
+                result_values.append(left - right)
             else:
                 result_values.append(head)
         return ' '.join([str(value) for value in result_values])
