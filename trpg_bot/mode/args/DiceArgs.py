@@ -27,6 +27,17 @@ class DiceArgs:
             raise Exception('Type error: + operator')
         return self
 
+    def __sub__(self, other):
+        if type(other) == DiceArgs:
+            self.value -= other.value
+            self.items += other.items
+        elif type(other) == int:
+            self.value -= other
+            self.items += [[other]]
+        else:
+            raise Exception('Type error: + operator')
+        return self
+
     def __str__(self):
         if len(list(itertools.chain.from_iterable(self.items))) == 1:
             return f"{self.items[0][0]}"
