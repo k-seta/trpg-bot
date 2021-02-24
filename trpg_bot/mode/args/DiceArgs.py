@@ -30,10 +30,12 @@ class DiceArgs:
     def __sub__(self, other):
         if type(other) == DiceArgs:
             self.value -= other.value
-            self.items += other.items
+            tmp_items = list(other.items)
+            tmp_items[0].insert(0, '-')
+            self.items += tmp_items
         elif type(other) == int:
             self.value -= other
-            self.items += [[other]]
+            self.items += [[-other]]
         else:
             raise Exception('Type error: + operator')
         return self
