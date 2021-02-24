@@ -37,7 +37,7 @@ class DiceArgs:
             self.value -= other
             self.items += [[-other]]
         else:
-            raise Exception('Type error: + operator')
+            raise Exception('Type error: - operator')
         return self
 
     def __str__(self):
