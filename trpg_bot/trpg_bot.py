@@ -68,7 +68,7 @@ if __name__ == '__main__':
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if command == 'players':
-                table = mode_selector.get(guild, session).players(session)
+                table = mode_selector.get(guild, session).players(guild, session)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':

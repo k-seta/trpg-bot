@@ -23,8 +23,8 @@ class DefaultMode:
     def regist(self, guild, session, user, url):
         self.redis.hset(f"{guild}.{session}", user, url)
 
-    def players(self, session):
-        data = self.redis.hgetall(session)
+    def players(self, guild, session):
+        data = self.redis.hgetall(f"{guild}.{session}")
         table = PrettyTable()
         table.field_names = ['user', 'url']
         for user, url in data.items():
