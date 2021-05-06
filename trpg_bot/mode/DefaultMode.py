@@ -34,7 +34,7 @@ class DefaultMode:
     def status(self, guild, session, user):
         return 'モード未指定のためこの機能は使用できません'
 
-    def dice(self, session, user, tokens):
+    def dice(self, guild, session, user, tokens):
 
         def proc(token):
             if type(token) == DiceArgs or type(token) == FunctionalDiceArgs:

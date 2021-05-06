@@ -18,9 +18,9 @@ class MayokinMode(DefaultMode):
         player = MayokinPlayer(user, url)
         return player.print()
 
-    def dice(self, session, user, tokens):
+    def dice(self, guild, session, user, tokens):
 
-        url = self.redis.hget(session, user)
+        url = self.redis.hget(f"{guild}.{session}", user)
         player = MayokinPlayer(user, url)
 
         def proc(token):
