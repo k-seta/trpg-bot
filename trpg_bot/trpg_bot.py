@@ -59,28 +59,28 @@ if __name__ == '__main__':
                 await message.channel.send(f"{mode} モードになったよ")
 
             if command == 'help':
-                help = mode_selector.get(session).help()
+                help = mode_selector.get(guild, session).help()
                 await message.channel.send(help)
 
             if command == 'regist':
                 url = params[0]
-                mode_selector.get(session).regist(session, user, url)
+                mode_selector.get(guild, session).regist(session, user, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if command == 'players':
-                table = mode_selector.get(session).players(session)
+                table = mode_selector.get(guild, session).players(session)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':
-                result = mode_selector.get(session).dice(session, user, params)
+                result = mode_selector.get(guild, session).dice(session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
-                status = mode_selector.get(session).status(session, user)
+                status = mode_selector.get(guild, session).status(session, user)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
             if command == 'extra':
-                result = mode_selector.get(session).extra(params)
+                result = mode_selector.get(guild, session).extra(params)
                 if result != None:
                     await message.channel.send(result)
 

@@ -13,8 +13,8 @@ class ModeSelectorLogic:
             'mayokin': MayokinMode(self.redis, './trpg_bot/resources/usage_mayokin.md')
         }
 
-    def get(self, session):
-        key = self.redis.hget('mode', session)
+    def get(self, guild, session):
+        key = self.redis.hget(f"{guild}.mode", session)
         if key == None or not key in self.modes.keys():
             key = 'default'
         return self.modes[key]
