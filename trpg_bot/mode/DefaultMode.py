@@ -20,8 +20,8 @@ class DefaultMode:
     def help(self):
         return self.message_help
 
-    def regist(self, session, user, url):
-        self.redis.hset(session, user, url)
+    def regist(self, guild, session, user, url):
+        self.redis.hset(f"{guild}.{session}", user, url)
 
     def players(self, session):
         data = self.redis.hgetall(session)

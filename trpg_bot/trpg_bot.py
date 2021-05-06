@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
             if command == 'regist':
                 url = params[0]
-                mode_selector.get(guild, session).regist(session, user, url)
+                mode_selector.get(guild, session).regist(guild, session, user, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if command == 'players':
