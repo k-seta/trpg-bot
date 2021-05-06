@@ -32,7 +32,7 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
-            guild = message.guild.name
+            guild = message.guild.name
             session = message.channel.name
             user  = message.author.name
             command, params = CommandInterpreterLogic().interp_command(message.content)
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':
-                result = mode_selector.get(guild, session).dice(session, user, params)
+                result = mode_selector.get(guild, session).dice(guild, session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
