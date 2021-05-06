@@ -20,21 +20,21 @@ class DefaultMode:
     def help(self):
         return self.message_help
 
-    def regist(self, session, user, url):
-        self.redis.hset(session, user, url)
+    def regist(self, guild, session, user, url):
+        self.redis.hset(f"{guild}.{session}", user, url)
 
-    def players(self, session):
-        data = self.redis.hgetall(session)
+    def players(self, guild, session):
+        data = self.redis.hgetall(f"{guild}.{session}")
         table = PrettyTable()
         table.field_names = ['user', 'url']
         for user, url in data.items():
             table.add_row([user, url])
         return table.get_string()
 
-    def status(self, session, user):
+    def status(self, guild, session, user):
         return 'モード未指定のためこの機能は使用できません'
 
-    def dice(self, session, user, tokens):
+    def dice(self, guild, session, user, tokens):
 
         def proc(token):
             if type(token) == DiceArgs or type(token) == FunctionalDiceArgs:

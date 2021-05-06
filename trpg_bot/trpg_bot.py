@@ -12,7 +12,6 @@ from logic import CommandInterpreterLogic, DropboxLogic, ModeSelectorLogic
 if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']
     REDIS = os.environ['REDIS_URL']
-    GLOBAL_CHANNEL_ID = int(os.environ['GLOBAL_CHANNEL_ID'])
     DROPBOX_TOKEN = os.environ['DROPBOX_TOKEN']
     COMMIT_HASH = os.environ['HEROKU_SLUG_COMMIT'] if 'HEROKU_SLUG_COMMIT' in os.environ.keys() else 'None'
 
@@ -33,6 +32,7 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
+            guild = message.guild.name
             session = message.channel.name
             user  = message.author.name
             command, params = CommandInterpreterLogic().interp_command(message.content)
@@ -55,32 +55,32 @@ if __name__ == '__main__':
 
             if command == 'mode':
                 mode_name = params[0]
-                mode = mode_selector.select(session, mode_name)
+                mode = mode_selector.select(guild, session, mode_name)
                 await message.channel.send(f"{mode} モードになったよ")
 
             if command == 'help':
-                help = mode_selector.get(session).help()
+                help = mode_selector.get(guild, session).help()
                 await message.channel.send(help)
 
             if command == 'regist':
                 url = params[0]
-                mode_selector.get(session).regist(session, user, url)
+                mode_selector.get(guild, session).regist(guild, session, user, url)
                 await message.channel.send(f"{message.author.mention} がキャラシートを登録したよ\n=> {url}")
 
             if command == 'players':
-                table = mode_selector.get(session).players(session)
+                table = mode_selector.get(guild, session).players(guild, session)
                 await message.channel.send(f"{message.channel.mention} のキャラシート一覧だよ\n```{table}```")
 
             if command == 'dice':
-                result = mode_selector.get(session).dice(session, user, params)
+                result = mode_selector.get(guild, session).dice(guild, session, user, params)
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
-                status = mode_selector.get(session).status(session, user)
+                status = mode_selector.get(guild, session).status(guild, session, user)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
             if command == 'extra':
-                result = mode_selector.get(session).extra(params)
+                result = mode_selector.get(guild, session).extra(params)
                 if result != None:
                     await message.channel.send(result)
 
@@ -91,13 +91,9 @@ if __name__ == '__main__':
     @client.event
     async def on_guild_channel_delete(channel):
         try:
-            r.hdel('mode', channel.name)
-            r.delete(channel.name)
-            global_channel = client.get_channel(GLOBAL_CHANNEL_ID)
-            await global_channel.send(f"{message.channel.mention}のプレイヤーデータを削除したよ")
-
+            r.hdel(f"{channel.guild.name}.mode", channel.name)
+            r.delete(f"{channel.guild.name}.{channel.name}")
         except Exception as e:
-            await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
             traceback.print_exc()
 
     client.run(TOKEN)

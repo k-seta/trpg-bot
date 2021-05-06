@@ -13,14 +13,14 @@ class MayokinMode(DefaultMode):
     def __init__(self, redis, path_of_help_md):
         super().__init__(redis, path_of_help_md)
 
-    def status(self, session, user):
-        url = self.redis.hget(session, user)
+    def status(self, guild, session, user):
+        url = self.redis.hget(f"{guild}.{session}", user)
         player = MayokinPlayer(user, url)
         return player.print()
 
-    def dice(self, session, user, tokens):
+    def dice(self, guild, session, user, tokens):
 
-        url = self.redis.hget(session, user)
+        url = self.redis.hget(f"{guild}.{session}", user)
         player = MayokinPlayer(user, url)
 
         def proc(token):
@@ -33,4 +33,4 @@ class MayokinMode(DefaultMode):
             return token
         
         result_props = [proc(token) for token in tokens]
-        return super().dice(session, user, result_props)
+        return super().dice(guild, session, user, result_props)
