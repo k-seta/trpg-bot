@@ -32,6 +32,7 @@ if __name__ == '__main__':
             if message.author.bot:
                 return
 
+            guild = message.guild.name
             session = message.channel.name
             user  = message.author.name
             command, params = CommandInterpreterLogic().interp_command(message.content)
@@ -54,7 +55,7 @@ if __name__ == '__main__':
 
             if command == 'mode':
                 mode_name = params[0]
-                mode = mode_selector.select(session, mode_name)
+                mode = mode_selector.select(guild, session, mode_name)
                 await message.channel.send(f"{mode} モードになったよ")
 
             if command == 'help':
