@@ -12,7 +12,6 @@ from logic import CommandInterpreterLogic, DropboxLogic, ModeSelectorLogic
 if __name__ == '__main__':
     TOKEN = os.environ['DISCORD_BOT_TOKEN']
     REDIS = os.environ['REDIS_URL']
-    GLOBAL_CHANNEL_ID = int(os.environ['GLOBAL_CHANNEL_ID'])
     DROPBOX_TOKEN = os.environ['DROPBOX_TOKEN']
     COMMIT_HASH = os.environ['HEROKU_SLUG_COMMIT'] if 'HEROKU_SLUG_COMMIT' in os.environ.keys() else 'None'
 
@@ -93,11 +92,7 @@ if __name__ == '__main__':
         try:
             r.hdel('mode', channel.name)
             r.delete(channel.name)
-            global_channel = client.get_channel(GLOBAL_CHANNEL_ID)
-            await global_channel.send(f"{message.channel.mention}のプレイヤーデータを削除したよ")
-
         except Exception as e:
-            await message.channel.send(f"何かエラーが起きたみたいだよ\n```{str(e)}```")
             traceback.print_exc()
 
     client.run(TOKEN)
