@@ -92,7 +92,7 @@ if __name__ == '__main__':
     async def on_guild_channel_delete(channel):
         try:
             r.hdel(f"{channel.guild.name}.mode", channel.name)
-            r.delete(channel.name)
+            r.delete(f"{channel.guild.name}.{channel.name}")
         except Exception as e:
             traceback.print_exc()
 
