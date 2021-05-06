@@ -76,7 +76,7 @@ if __name__ == '__main__':
                 await message.channel.send(f"{message.author.mention} がサイコロを振ったよ\n=> {result}")
 
             if command == 'status':
-                status = mode_selector.get(guild, session).status(session, user)
+                status = mode_selector.get(guild, session).status(guild, session, user)
                 await message.channel.send(f"{message.author.mention} のキャラシートだよ\n```{status}```")
 
             if command == 'extra':
