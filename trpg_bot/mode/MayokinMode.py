@@ -33,4 +33,4 @@ class MayokinMode(DefaultMode):
             return token
         
         result_props = [proc(token) for token in tokens]
-        return super().dice(session, user, result_props)
+        return super().dice(guild, session, user, result_props)
